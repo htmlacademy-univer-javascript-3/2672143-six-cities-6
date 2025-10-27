@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './notFoundPage.module.css';
+import styles from '../styles/notFoundPage.module.css';
 
 const NotFoundPage: FC = () => (
   <div className="page">
