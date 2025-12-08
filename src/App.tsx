@@ -22,7 +22,7 @@ export const App: React.FC<MainProps> = (props: MainProps) => {
       <Routes>
         <Route path="/" element={<Main offers={offers} />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/offer/:id" element={<OfferPage />} />
+        <Route path="/offer/:id" element={<OfferPage offers={offers} />} />
 
         <Route element={<PrivateRoute isAuthorized={isAuthorized} />}>
           <Route
