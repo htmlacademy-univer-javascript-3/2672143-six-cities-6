@@ -8,6 +8,25 @@ export type Offer = {
   isPremium: boolean;
   rating: number;
   previewImage: string;
+  images?: string[];
+  description?: string;
+  bedrooms?: number;
+  maxAdults?: number;
+  inside?: string[];
+  host?: {
+    name: string;
+    avatar: string;
+    isPro: boolean;
+    description: string;
+  };
+  reviews?: Array<{
+    id: string;
+    user: string;
+    avatar: string;
+    rating: number;
+    text: string;
+    date: string;
+  }>;
 };
 
 export type OffersListProps = {
