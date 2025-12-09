@@ -3,6 +3,7 @@ import { Tabs } from '../components/Tabs';
 import { Header } from '../components/Header';
 import { cities } from '../mocs/cities';
 import { OffersList } from '../components/OffersList';
+import { Map } from '../components/Map/Map';
 import { Offer } from '../types/Offer';
 
 interface MainProps {
@@ -23,7 +24,7 @@ const Main: React.FC<MainProps> = ({ offers }) => (
             <OffersList offers={offers} />
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map"></section>
+            <Map offers={offers} />
           </div>
         </div>
       </div>
