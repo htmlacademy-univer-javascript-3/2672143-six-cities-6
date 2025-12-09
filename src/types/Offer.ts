@@ -9,6 +9,8 @@ export type Offer = {
   rating: number;
   previewImage: string;
   images?: string[];
+  latitude?: number;
+  longitude?: number;
   description?: string;
   bedrooms?: number;
   maxAdults?: number;

@@ -11,6 +11,8 @@ export const offers: Offer[] = [
     isPremium: true,
     rating: 4.8,
     previewImage: 'img/apartment-01.jpg',
+    latitude: 52.3909553943508,
+    longitude: 4.85309666406198,
     images: [
       'img/apartment-01.jpg',
       'img/room.jpg',
@@ -61,6 +63,8 @@ export const offers: Offer[] = [
     isFavorite: true,
     isPremium: false,
     rating: 4,
+    latitude: 52.3609553943508,
+    longitude: 4.85309666406198,
     previewImage: 'img/room.jpg',
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg'],
     bedrooms: 1,
@@ -102,6 +106,8 @@ export const offers: Offer[] = [
     city: 'Amsterdam',
     isFavorite: false,
     isPremium: false,
+    latitude: 52.3909553943508,
+    longitude: 4.929309666406198,
     rating: 4.5,
     previewImage: 'img/apartment-02.jpg',
     images: [
@@ -148,6 +154,8 @@ export const offers: Offer[] = [
     city: 'Amsterdam',
     isFavorite: false,
     isPremium: true,
+    latitude: 52.3809553943508,
+    longitude: 4.939309666406198,
     rating: 5,
     previewImage: 'img/apartment-03.jpg',
     images: [
