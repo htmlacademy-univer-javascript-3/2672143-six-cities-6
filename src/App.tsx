@@ -8,6 +8,8 @@ import { LoginPage } from './pages/Login';
 import { FavoritesPage } from './pages/Favorite';
 import NotFoundPage from './pages/NotFound';
 import groupedMockFavorites from './mocs/Favorites';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 interface MainProps {
   offers: Offer[];
@@ -18,22 +20,24 @@ export const App: React.FC<MainProps> = (props: MainProps) => {
   const isAuthorized = false;
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Main offers={offers} />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/offer/:id" element={<OfferPage offers={offers} />} />
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/offer/:id" element={<OfferPage offers={offers} />} />
 
-        <Route element={<PrivateRoute isAuthorized={isAuthorized} />}>
-          <Route
-            path="/favorites"
-            element={<FavoritesPage favorites={groupedMockFavorites} />}
-          />
-        </Route>
+          <Route element={<PrivateRoute isAuthorized={isAuthorized} />}>
+            <Route
+              path="/favorites"
+              element={<FavoritesPage favorites={groupedMockFavorites} />}
+            />
+          </Route>
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

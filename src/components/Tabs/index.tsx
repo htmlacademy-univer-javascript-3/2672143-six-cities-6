@@ -1,19 +1,23 @@
 import { useState } from 'react';
 import { TabItem } from './ui/TabItems';
 import { City } from '../../types/City';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { changeCity } from '../../store/reducer';
 
 type TabsProp = {
   cities: City[];
-  onCityChange?: (city: City, index: number) => void;
 };
 
 export const Tabs: React.FC<TabsProp> = (props: TabsProp) => {
-  const { cities, onCityChange } = props;
+  const { cities } = props;
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
-    onCityChange?.(cities[index], index);
+    dispatch(changeCity(cities[index]));
   };
 
   return (
