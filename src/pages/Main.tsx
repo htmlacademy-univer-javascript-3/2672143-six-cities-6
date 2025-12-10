@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tabs } from '../components/Tabs';
 import { Header } from '../components/Header';
+import { Sort } from '../components/Sort/Sort';
 import { cities } from '../mocs/cities';
 import { OffersList } from '../components/OffersList';
 import { Map } from '../components/Map/Map';
-import { selectSelectedCity, selectOffersByCity } from '../store/selectors';
+import { selectSelectedCity, selectSortedOffers } from '../store/selectors';
 
 const Main: React.FC = () => {
+  const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
   const selectedCity = useSelector(selectSelectedCity);
-  const filterredOffers = useSelector(selectOffersByCity);
+  const sortedOffers = useSelector(selectSortedOffers);
 
   return (
     <>
@@ -22,12 +24,17 @@ const Main: React.FC = () => {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {filterredOffers.length} places to stay in {selectedCity.name}
+                {sortedOffers.length} places to stay in {selectedCity.name}
               </b>
-              <OffersList offers={filterredOffers} />
+              <Sort />
+              <OffersList
+                offers={sortedOffers}
+                hoveredOfferId={hoveredOfferId}
+                onOfferHover={setHoveredOfferId}
+              />
             </section>
             <div className="cities__right-section">
-              <Map offers={filterredOffers} />
+              <Map offers={sortedOffers} hoveredOfferId={hoveredOfferId} />
             </div>
           </div>
         </div>
