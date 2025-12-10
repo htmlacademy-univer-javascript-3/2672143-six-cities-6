@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Offer } from '../types/Offer';
 import { ReviewForm } from '../components/ReviewForm/ReviewForm';
+import { ReviewsList } from '../components/ReviewsList/ReviewsList';
+import { NearPlaces } from '../components/NearPlaces/NearPlaces';
+import { Map } from '../components/Map/Map';
 
 type OfferPageProps = {
   offers: Offer[];
@@ -9,8 +12,8 @@ type OfferPageProps = {
 
 export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
   const { id } = useParams<{ id: string }>();
-
   const offer = offers.find((o) => o.id === id);
+  const nearOffers = offers.filter((o) => o.id !== id);
 
   const [reviews, setReviews] = useState(offer?.reviews || []);
 
@@ -154,7 +157,7 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
                   <h2 className="offer__inside-title">What&apos;s inside</h2>
                   <ul className="offer__inside-list">
                     {inside.map((item) => (
-                      <li key={`${item}}`} className="offer__inside-item">
+                      <li key={item} className="offer__inside-item">
                         {item}
                       </li>
                     ))}
@@ -187,59 +190,18 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
               )}
 
               {reviews && reviews.length > 0 && (
-                <section className="offer__reviews reviews">
-                  <h2 className="reviews__title">
-                    Reviews &middot;{' '}
-                    <span className="reviews__amount">{reviews.length}</span>
-                  </h2>
-                  <ul className="reviews__list">
-                    {reviews.map((review) => (
-                      <li key={review.id} className="reviews__item">
-                        <div className="reviews__user user">
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img
-                              className="reviews__avatar user__avatar"
-                              src={review.avatar}
-                              width="54"
-                              height="54"
-                              alt={`${review.user}'s avatar`}
-                            />
-                          </div>
-                          <span className="reviews__user-name">
-                            {review.user}
-                          </span>
-                        </div>
-                        <div className="reviews__info">
-                          <div className="reviews__rating rating">
-                            <div className="reviews__stars rating__stars">
-                              <span
-                                style={{
-                                  width: `${(review.rating / 5) * 100}%`,
-                                }}
-                              >
-                              </span>
-                              <span className="visually-hidden">Rating</span>
-                            </div>
-                          </div>
-                          <p className="reviews__text">{review.text}</p>
-                          <time
-                            className="reviews__time"
-                            dateTime={review.date}
-                          >
-                            {review.date}
-                          </time>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+                <ReviewsList reviews={reviews} />
               )}
               <ReviewForm onSubmit={handleReviewSubmit} />
             </div>
           </div>
-
-          <section className="offer__map map"></section>
         </section>
+
+        <section className="offer__map ">
+          <Map offers={offers} />
+        </section>
+
+        <NearPlaces offers={nearOffers} />
       </main>
     </div>
   );
