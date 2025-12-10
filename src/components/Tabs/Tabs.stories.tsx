@@ -68,10 +68,6 @@ export const TwoCities: Story = {
 export const WithCallback: Story = {
   args: {
     cities: mockCities,
-    onCityChange: (city, index) => {
-      // eslint-disable-next-line no-console
-      console.log(`City changed to: ${city.name} (index: ${index})`);
-    },
   },
 };
 
