@@ -1,13 +1,16 @@
 import { Offer } from '../../../../types/Offer';
 import { Link } from 'react-router-dom';
+import React from 'react';
 
 type OfferCardProps = {
   offer: Offer;
   onFavoriteClick?: (id: string, isFavorite: boolean) => void;
+  isHovered?: boolean;
+  onHover?: (offerId: string | null) => void;
 };
 
 export const OfferItems: React.FC<OfferCardProps> = (props: OfferCardProps) => {
-  const { offer, onFavoriteClick } = props;
+  const { offer, onFavoriteClick, isHovered, onHover } = props;
   const {
     id,
     title,
@@ -24,10 +27,28 @@ export const OfferItems: React.FC<OfferCardProps> = (props: OfferCardProps) => {
     onFavoriteClick?.(id, !isFavorite);
   };
 
+  const handleMouseEnter = () => {
+    if (onHover) {
+      onHover(id);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (onHover) {
+      onHover(null);
+    }
+  };
+
   const getRatingWidth = (ratingValue: number) => `${(ratingValue / 5) * 100}%`;
 
   return (
-    <article className="cities__card place-card">
+    <article
+      className={`cities__card place-card ${
+        isHovered ? 'place-card--active' : ''
+      }`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

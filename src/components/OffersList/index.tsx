@@ -1,16 +1,26 @@
-import { OffersListProps } from '../../types/Offer';
+import React from 'react';
+import { Offer } from '../../types/Offer';
 import { OfferItems } from './ui/OfferItems';
 
-export const OffersList: React.FC<OffersListProps> = (
-  props: OffersListProps
-) => {
-  const { offers } = props;
+interface OffersListProps {
+  offers: Offer[];
+  hoveredOfferId?: string | null;
+  onOfferHover?: (offerId: string | null) => void;
+}
 
-  return (
-    <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => (
-        <OfferItems key={offer.id} offer={offer} />
-      ))}
-    </div>
-  );
-};
+export const OffersList: React.FC<OffersListProps> = ({
+  offers,
+  hoveredOfferId,
+  onOfferHover,
+}) => (
+  <div className="cities__places-list places__list tabs__content">
+    {offers.map((offer) => (
+      <OfferItems
+        key={offer.id}
+        offer={offer}
+        isHovered={hoveredOfferId === offer.id}
+        onHover={onOfferHover}
+      />
+    ))}
+  </div>
+);
