@@ -1,17 +1,21 @@
-import { Offer } from '../types/Offer';
 import { RootState } from './index';
-
 export const selectSelectedCity = (state: RootState) =>
   state.store.selectedCity;
 
-export const selectAllOffers = (state: RootState) => state.store.offers;
+export const selectOffers = (state: RootState) => state.offers.offers;
 
-export const selectOffersByCity = (state: RootState): Offer[] => {
-  const { selectedCity, offers } = state.store;
-  return offers.filter((offer) => offer.city === selectedCity.name);
-};
+export const selectIsLoadingOffers = (state: RootState) =>
+  state.offers.isLoading;
+
+export const selectOffersError = (state: RootState) => state.offers.error;
 
 export const selectSortType = (state: RootState) => state.sorting.sortType;
+
+export const selectOffersByCity = (state: RootState) => {
+  const offers = state.offers.offers;
+  const selectedCityName = state.store.selectedCity.name;
+  return offers.filter((offer) => offer.city.name === selectedCityName);
+};
 
 export const selectSortedOffers = (state: RootState) => {
   const offers = selectOffersByCity(state);

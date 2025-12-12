@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Tabs } from '../components/Tabs';
 import { Header } from '../components/Header';
 import { Sort } from '../components/Sort/Sort';
 import { cities } from '../mocs/cities';
 import { OffersList } from '../components/OffersList';
 import { Map } from '../components/Map/Map';
-import { selectSelectedCity, selectSortedOffers } from '../store/selectors';
+import type { AppDispatch } from '../store';
 
+import {
+  selectSelectedCity,
+  selectSortedOffers,
+  selectIsLoadingOffers,
+} from '../store/selectors';
+
+import { Spinner } from '../components/Spinner/Spinner';
+import { fetchOffers } from '../store/slices/offersSlice';
 const Main: React.FC = () => {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
   const selectedCity = useSelector(selectSelectedCity);
   const sortedOffers = useSelector(selectSortedOffers);
+  const isLoading = useSelector(selectIsLoadingOffers);
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
 
   return (
     <>
@@ -26,12 +40,18 @@ const Main: React.FC = () => {
               <b className="places__found">
                 {sortedOffers.length} places to stay in {selectedCity.name}
               </b>
-              <Sort />
-              <OffersList
-                offers={sortedOffers}
-                hoveredOfferId={hoveredOfferId}
-                onOfferHover={setHoveredOfferId}
-              />
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <Sort />
+                  <OffersList
+                    offers={sortedOffers}
+                    hoveredOfferId={hoveredOfferId}
+                    onOfferHover={setHoveredOfferId}
+                  />
+                </>
+              )}
             </section>
             <div className="cities__right-section">
               <Map offers={sortedOffers} hoveredOfferId={hoveredOfferId} />

@@ -4,7 +4,6 @@ import { City } from '../../types/City';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { changeCity } from '../../store/reducer';
-
 type TabsProp = {
   cities: City[];
 };
@@ -24,13 +23,12 @@ export const Tabs: React.FC<TabsProp> = (props: TabsProp) => {
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {cities.map((city) => (
+          {cities.map((city, index) => (
             <TabItem
               {...city}
-              key={city.id}
-              isActive={city.id === cities[activeIndex]?.id}
-              onClick={() =>
-                handleTabClick(cities.findIndex((c) => c.id === city.id))}
+              key={city.name}
+              isActive={activeIndex === index}
+              onClick={() => handleTabClick(index)}
             />
           ))}
         </ul>

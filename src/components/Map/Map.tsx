@@ -7,7 +7,6 @@ interface MapProps {
   offers: Offer[];
   hoveredOfferId?: string | null;
 }
-
 export const Map: React.FC<MapProps> = ({ offers, hoveredOfferId }) => {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Record<string, L.Marker>>({});
@@ -31,15 +30,17 @@ export const Map: React.FC<MapProps> = ({ offers, hoveredOfferId }) => {
       mapRef.current.remove();
     }
 
-    let centerLat = 52.3909553943508;
-    let centerLng = 4.85309666406198;
+    let centerLat = 48.85661;
+    let centerLng = 2.351499;
+    let zoom = 1;
 
-    if (offers.length > 0 && offers[0].latitude && offers[0].longitude) {
-      centerLat = offers[0].latitude;
-      centerLng = offers[0].longitude;
+    if (offers.length > 0 && offers[0].city && offers[0].city.location) {
+      centerLat = offers[0].city.location.latitude;
+      centerLng = offers[0].city.location.longitude;
+      zoom = offers[0].city.location.zoom;
     }
 
-    const map = L.map('cities__map').setView([centerLat, centerLng], 12);
+    const map = L.map('cities__map').setView([centerLat, centerLng], zoom);
     mapRef.current = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -49,14 +50,22 @@ export const Map: React.FC<MapProps> = ({ offers, hoveredOfferId }) => {
     markersRef.current = {};
 
     offers.forEach((offer) => {
-      if (offer.latitude && offer.longitude) {
-        const marker = L.marker([offer.latitude, offer.longitude], {
-          icon: defaultIcon,
-        }).addTo(map);
+      if (
+        offer.location &&
+        offer.location.latitude &&
+        offer.location.longitude
+      ) {
+        const marker = L.marker(
+          [offer.location.latitude, offer.location.longitude],
+          {
+            icon: defaultIcon,
+          }
+        ).addTo(map);
 
         marker.bindPopup(`
           <b>${offer.title}</b><br />
-          <small>${offer.description || 'No description'}</small>
+          <small>${offer.type}</small><br />
+          <strong>&euro;${offer.price}</strong> night
         `);
 
         markersRef.current[offer.id] = marker;
@@ -79,7 +88,7 @@ export const Map: React.FC<MapProps> = ({ offers, hoveredOfferId }) => {
         marker.setIcon(defaultIcon);
       }
     });
-  }, [activeIcon, defaultIcon, hoveredOfferId]);
+  }, [hoveredOfferId]);
 
   return <div id="cities__map" className="cities__map" />;
 };
