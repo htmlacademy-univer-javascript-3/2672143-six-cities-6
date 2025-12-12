@@ -7,14 +7,13 @@ type TabItemProps = City & {
 };
 
 export const TabItem: React.FC<TabItemProps> = (props: TabItemProps) => {
-  const { name, href, isActive, onClick } = props;
+  const { name, isActive, onClick } = props;
   return (
     <li className="locations__item">
       <a
         className={`locations__item-link tabs__item ${
           isActive ? 'tabs__item--active' : ''
         }`}
-        href={href}
         onClick={(e) => {
           e.preventDefault();
           onClick();
