@@ -1,5 +1,8 @@
 export type City = {
-  id: number;
   name: string;
-  href: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 };

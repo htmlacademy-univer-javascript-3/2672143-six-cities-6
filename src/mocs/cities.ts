@@ -1,32 +1,52 @@
-export const cities = [
+import { City } from '../types/City';
+
+export const cities: City[] = [
   {
-    id: 0,
     name: 'Paris',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
   {
-    id: 1,
     name: 'Cologne',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
   {
-    id: 2,
     name: 'Brussels',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
   {
-    id: 3,
     name: 'Amsterdam',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
   {
-    id: 4,
     name: 'Hamburg',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
   {
-    id: 5,
     name: 'Dusseldorf',
-    href: '#',
+    location: {
+      latitude: 0,
+      longitude: 0,
+      zoom: 0,
+    },
   },
 ];
