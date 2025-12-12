@@ -1,14 +1,12 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { FC } from 'react';
+import { selectIsAuthorized } from '../../store/selectors';
 
-type PrivateRouteProps = {
-  isAuthorized: boolean;
-  redirectPath?: string;
+const PrivateRoute: React.FC = () => {
+  const isAuthorized = useSelector(selectIsAuthorized);
+
+  return isAuthorized ? <Outlet /> : <Navigate to="/login" />;
 };
-
-const PrivateRoute: FC<PrivateRouteProps> = ({
-  isAuthorized,
-  redirectPath = '/login',
-}) => (isAuthorized ? <Outlet /> : <Navigate to={redirectPath} replace />);
 
 export default PrivateRoute;

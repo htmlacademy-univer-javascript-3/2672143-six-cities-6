@@ -1,63 +1,81 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Map } from './Map';
 import { Offer } from '../../types/Offer';
+import { City } from '../../types/City';
+
+const mockCity: City = {
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.3909553943508,
+    longitude: 4.85309666406198,
+    zoom: 12,
+  },
+};
 
 const mockOffers: Offer[] = [
   {
     id: '1',
     title: 'Beautiful apartment in Amsterdam',
-    description: 'Cozy 2-bedroom apartment in the city center',
-    latitude: 52.3909553943508,
-    longitude: 4.85309666406198,
-    type: '',
-    price: 0,
-    city: '',
+    type: 'apartment',
+    price: 120,
+    city: mockCity,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 12,
+    },
     isFavorite: false,
     isPremium: false,
-    rating: 0,
-    previewImage: '',
+    rating: 4.8,
+    previewImage: 'https://via.placeholder.com/260x200?text=Amsterdam+1',
   },
   {
     id: '2',
     title: 'Modern studio apartment',
-    description: 'Perfect for couples and solo travelers',
-    latitude: 52.3609553943508,
-    longitude: 4.85309666406198,
-    type: '',
-    price: 0,
-    city: '',
+    type: 'room',
+    price: 85,
+    city: mockCity,
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 12,
+    },
     isFavorite: false,
-    isPremium: false,
-    rating: 0,
-    previewImage: '',
+    isPremium: true,
+    rating: 4.5,
+    previewImage: 'https://via.placeholder.com/260x200?text=Modern+Studio',
   },
   {
     id: '3',
     title: 'Luxury penthouse',
-    description: 'Amazing view of the city',
-    latitude: 52.3909553943508,
-    longitude: 4.929309666406198,
-    type: '',
-    price: 0,
-    city: '',
+    type: 'house',
+    price: 250,
+    city: mockCity,
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 12,
+    },
     isFavorite: false,
-    isPremium: false,
-    rating: 0,
-    previewImage: '',
+    isPremium: true,
+    rating: 5.0,
+    previewImage: 'https://via.placeholder.com/260x200?text=Luxury+Penthouse',
   },
   {
     id: '4',
     title: 'Charming Dutch house',
-    description: 'Traditional architecture, modern comfort',
-    latitude: 52.3809553943508,
-    longitude: 4.939309666406198,
-    type: '',
-    price: 0,
-    city: '',
+    type: 'house',
+    price: 180,
+    city: mockCity,
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 12,
+    },
     isFavorite: false,
     isPremium: false,
-    rating: 0,
-    previewImage: '',
+    rating: 4.6,
+    previewImage: 'https://via.placeholder.com/260x200?text=Dutch+House',
   },
 ];
 
@@ -144,30 +162,34 @@ export const OffersWithoutCoordinates: Story = {
       {
         id: '1',
         title: 'Offer without coordinates',
-        description: 'This offer has no location data',
-        latitude: 0,
-        longitude: 0,
-        type: '',
-        price: 0,
-        city: '',
+        type: 'apartment',
+        price: 100,
+        city: mockCity,
+        location: {
+          latitude: 0,
+          longitude: 0,
+          zoom: 12,
+        },
         isFavorite: false,
         isPremium: false,
         rating: 0,
-        previewImage: '',
+        previewImage: 'https://via.placeholder.com/260x200?text=No+Coords',
       },
       {
         id: '2',
         title: 'Another offer',
-        description: 'This one has proper coordinates',
-        latitude: 52.3909553943508,
-        longitude: 4.85309666406198,
-        type: '',
-        price: 0,
-        city: '',
+        type: 'room',
+        price: 90,
+        city: mockCity,
+        location: {
+          latitude: 52.3909553943508,
+          longitude: 4.85309666406198,
+          zoom: 12,
+        },
         isFavorite: false,
         isPremium: false,
-        rating: 0,
-        previewImage: '',
+        rating: 4.3,
+        previewImage: 'https://via.placeholder.com/260x200?text=Valid+Coords',
       },
     ],
   },
@@ -188,6 +210,19 @@ export const ZoomedView: Story = {
     <div>
       <h2>Map zoomed view</h2>
       <p>Default zoom level: 12, centered on first offer coordinates</p>
+      <Map {...args} />
+    </div>
+  ),
+};
+
+export const PremiumOffers: Story = {
+  args: {
+    offers: mockOffers.filter((offer) => offer.isPremium),
+  },
+  render: (args) => (
+    <div>
+      <h2>Map with premium offers only</h2>
+      <p>Displaying only premium rental offers</p>
       <Map {...args} />
     </div>
   ),

@@ -16,34 +16,52 @@ type Story = StoryObj<typeof meta>;
 
 const mockCities: City[] = [
   {
-    id: 1,
     name: 'Paris',
-    href: '/cities/paris',
+    location: {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      zoom: 12,
+    },
   },
   {
-    id: 2,
     name: 'London',
-    href: '/cities/london',
+    location: {
+      latitude: 51.5074,
+      longitude: -0.1278,
+      zoom: 12,
+    },
   },
   {
-    id: 3,
     name: 'Berlin',
-    href: '/cities/berlin',
+    location: {
+      latitude: 52.52,
+      longitude: 13.405,
+      zoom: 12,
+    },
   },
   {
-    id: 4,
     name: 'Amsterdam',
-    href: '/cities/amsterdam',
+    location: {
+      latitude: 52.3676,
+      longitude: 4.9041,
+      zoom: 12,
+    },
   },
   {
-    id: 5,
     name: 'Brussels',
-    href: '/cities/brussels',
+    location: {
+      latitude: 50.8503,
+      longitude: 4.3517,
+      zoom: 12,
+    },
   },
   {
-    id: 6,
     name: 'Cologne',
-    href: '/cities/cologne',
+    location: {
+      latitude: 50.9375,
+      longitude: 6.9603,
+      zoom: 12,
+    },
   },
 ];
 
@@ -74,5 +92,11 @@ export const WithCallback: Story = {
 export const Empty: Story = {
   args: {
     cities: [],
+  },
+};
+
+export const LargeCitiesList: Story = {
+  args: {
+    cities: mockCities,
   },
 };

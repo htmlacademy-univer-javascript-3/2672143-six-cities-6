@@ -1,46 +1,166 @@
+import { useState } from 'react';
 import { Header } from '../components/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthIsLoading, selectAuthError } from '../store/selectors';
+import type { AppDispatch } from '../store';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../store/slices/authSlice';
+interface ValidationErrors {
+  email?: string;
+  password?: string;
+}
 
-export const LoginPage: React.FC = () => (
-  <div className="page page--gray page--login">
-    <Header />
-    <main className="page__main page__main--login">
-      <div className="page__login-container container">
-        <section className="login">
-          <h1 className="login__title">Sign in</h1>
-          <form className="login__form form" action="#" method="post">
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">E-mail</label>
-              <input
-                className="login__input form__input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
+export const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {}
+  );
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const isLoading = useSelector(selectAuthIsLoading);
+  const error = useSelector(selectAuthError);
+
+  const validateEmail = (emailValue: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailValue);
+  };
+
+  const validatePassword = (passwordValue: string): boolean => {
+    const hasLetter = /[a-zA-Z]/.test(passwordValue);
+    const hasDigit = /\d/.test(passwordValue);
+    return hasLetter && hasDigit && passwordValue.length > 0;
+  };
+
+  const validateForm = (): boolean => {
+    const errors: ValidationErrors = {};
+
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!validateEmail(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (!validatePassword(password)) {
+      errors.password =
+        'Password must contain at least one letter and one digit';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    void dispatch(login({ email, password }))
+      .then((result) => {
+        if (login.fulfilled.match(result)) {
+          navigate('/');
+        }
+      })
+      .catch(() => {});
+  };
+
+  return (
+    <div className="page page--gray page--login">
+      <Header />
+      <main className="page__main page__main--login">
+        <div className="page__login-container container">
+          <section className="login">
+            <h1 className="login__title">Sign in</h1>
+            {error && (
+              <p style={{ color: '#ff5555', marginBottom: '20px' }}>{error}</p>
+            )}
+            <form className="login__form form" onSubmit={handleSubmit}>
+              <div className="login__input-wrapper form__input-wrapper">
+                <label className="visually-hidden">E-mail</label>
+                <input
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (validationErrors.email) {
+                      setValidationErrors({
+                        ...validationErrors,
+                        email: undefined,
+                      });
+                    }
+                  }}
+                  required
+                  disabled={isLoading}
+                />
+                {validationErrors.email && (
+                  <p
+                    style={{
+                      color: '#ff5555',
+                      fontSize: '12px',
+                      marginTop: '5px',
+                    }}
+                  >
+                    {validationErrors.email}
+                  </p>
+                )}
+              </div>
+              <div className="login__input-wrapper form__input-wrapper">
+                <label className="visually-hidden">Password</label>
+                <input
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (validationErrors.password) {
+                      setValidationErrors({
+                        ...validationErrors,
+                        password: undefined,
+                      });
+                    }
+                  }}
+                  required
+                  disabled={isLoading}
+                />
+                {validationErrors.password && (
+                  <p
+                    style={{
+                      color: '#ff5555',
+                      fontSize: '12px',
+                      marginTop: '5px',
+                    }}
+                  >
+                    {validationErrors.password}
+                  </p>
+                )}
+              </div>
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign in'}
+              </button>
+            </form>
+          </section>
+          <section className="locations locations--login locations--current">
+            <div className="locations__item">
+              <a className="locations__item-link" href="#">
+                <span>Amsterdam</span>
+              </a>
             </div>
-            <div className="login__input-wrapper form__input-wrapper">
-              <label className="visually-hidden">Password</label>
-              <input
-                className="login__input form__input"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <button className="login__submit form__submit button" type="submit">
-              Sign in
-            </button>
-          </form>
-        </section>
-        <section className="locations locations--login locations--current">
-          <div className="locations__item">
-            <a className="locations__item-link" href="#">
-              <span>Amsterdam</span>
-            </a>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-);
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+};
