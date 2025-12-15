@@ -1,19 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AuthInfo } from '../../types/AuthInfo';
+import { AuthorizationStatus } from '../../enums/AuthorizationStatus';
 
-export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}
 
-export interface AuthState {
+type AuthState = {
   authorizationStatus: AuthorizationStatus;
   user: AuthInfo | null;
   isLoading: boolean;
   error: string | null;
-}
+};
 
 const initialState: AuthState = {
   authorizationStatus: AuthorizationStatus.Unknown,

@@ -1,28 +1,55 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Tabs } from '../components/Tabs';
 import { Header } from '../components/Header';
-import { Sort } from '../components/Sort/Sort';
+
 import { cities } from '../mocs/cities';
-import { OffersList } from '../components/OffersList';
-import { Map } from '../components/Map/Map';
 
 import {
   selectSelectedCity,
   selectSortedOffers,
   selectIsLoadingOffers,
+  selectIsAuthorized,
 } from '../store/selectors';
-
 import { Spinner } from '../components/Spinner/Spinner';
 import { useInitializeOffers } from '../hooks/useInitializeOffers';
+import type { AppDispatch } from '../store';
+import { toggleFavorite } from '../store/slices/favoriteSlice';
+import { EmptyOffersSection } from '../components/EmptyOfferSection/EmptyOfferSection';
+import { OffersContent } from '../components/OffersContent/OffersContent';
 
 const Main: React.FC = () => {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   useInitializeOffers();
 
   const selectedCity = useSelector(selectSelectedCity);
   const sortedOffers = useSelector(selectSortedOffers);
   const isLoading = useSelector(selectIsLoadingOffers);
+  const isAuthorized = useSelector(selectIsAuthorized);
+
+  const handleFavoriteClick = useCallback(
+    (offerId: string, newStatus: boolean) => {
+      if (!isAuthorized) {
+        navigate('/login');
+        return;
+      }
+      void dispatch(
+        toggleFavorite({
+          offerId,
+          status: newStatus ? 1 : 0,
+        })
+      );
+    },
+    [isAuthorized, dispatch, navigate]
+  );
+
+  const handleOfferHover = useCallback((id: string | null) => {
+    setHoveredOfferId(id);
+  }, []);
 
   return (
     <>
@@ -32,27 +59,19 @@ const Main: React.FC = () => {
         <Tabs cities={cities} />
         <div className="cities">
           <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">
-                {sortedOffers.length} places to stay in {selectedCity.name}
-              </b>
-              {isLoading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <Sort />
-                  <OffersList
-                    offers={sortedOffers}
-                    hoveredOfferId={hoveredOfferId}
-                    onOfferHover={setHoveredOfferId}
-                  />
-                </>
-              )}
-            </section>
-            <div className="cities__right-section">
-              <Map offers={sortedOffers} hoveredOfferId={hoveredOfferId} />
-            </div>
+            {isLoading && <Spinner />}
+            {!isLoading && sortedOffers.length === 0 && (
+              <EmptyOffersSection cityName={selectedCity.name} />
+            )}
+            {!isLoading && sortedOffers.length > 0 && (
+              <OffersContent
+                hoveredOfferId={hoveredOfferId}
+                selectedCity={selectedCity.name}
+                sortedOffers={sortedOffers}
+                onOfferHover={handleOfferHover}
+                onFavoriteClick={handleFavoriteClick}
+              />
+            )}
           </div>
         </div>
       </main>

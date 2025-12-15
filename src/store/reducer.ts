@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { City } from '../types/City';
 
-interface StoreState {
+type StoreState = {
   selectedCity: City;
-}
+};
 
 const initialState: StoreState = {
   selectedCity: {

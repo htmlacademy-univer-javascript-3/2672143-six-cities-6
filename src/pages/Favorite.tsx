@@ -1,26 +1,47 @@
 import { Header } from '../components/Header';
 import { OfferItems } from '../components/OffersList/ui/OfferItems';
-import { FavoriteOfferType } from '../types/Favorite';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectFavoritesGroupedByCity,
+  selectIsAuthorized,
+} from '../store/selectors';
+import { useNavigate } from 'react-router-dom';
+import { useInitializeFavorites } from '../hooks/useInitializeFavorites';
+import { useCallback } from 'react';
+import type { AppDispatch } from '../store';
+import { toggleFavorite } from '../store/slices/favoriteSlice';
 
-type GroupedFavorites = {
-  [city: string]: FavoriteOfferType[];
-};
+export const FavoritesPage: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-type FavoritesPageProps = {
-  favorites: GroupedFavorites;
-  onFavoriteClick?: (id: string, isFavorite: boolean) => void;
-};
+  useInitializeFavorites();
 
-export const FavoritesPage: React.FC<FavoritesPageProps> = (
-  props: FavoritesPageProps
-) => {
-  const { favorites, onFavoriteClick } = props;
+  const isAuthorized = useSelector(selectIsAuthorized);
+  const favorites = useSelector(selectFavoritesGroupedByCity);
+
+  const handleFavoriteClick = useCallback(
+    (offerId: string, newStatus: boolean) => {
+      void dispatch(
+        toggleFavorite({
+          offerId,
+          status: newStatus ? 1 : 0,
+        })
+      );
+    },
+    [dispatch]
+  );
+  if (!isAuthorized) {
+    navigate('/login');
+    return null;
+  }
+
   return (
     <div className="page">
       <Header />
 
       <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
+        <div className="favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
 
@@ -44,7 +65,7 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = (
                         <OfferItems
                           key={offer.id}
                           offer={offer}
-                          onFavoriteClick={onFavoriteClick}
+                          onFavoriteClick={handleFavoriteClick}
                         />
                       ))}
                     </div>

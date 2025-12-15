@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../store/slices/authSlice';
 import { validateEmail } from '../utils/validateEmail';
 import { validatePassword } from '../utils/validatePassword';
-interface ValidationErrors {
+import { LoginCitySuggestion } from '../components/LoginCitySuggestion/LoginCitySuggestion';
+
+type ValidationErrors = {
   email?: string;
   password?: string;
-}
+};
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -134,13 +136,8 @@ export const LoginPage: React.FC = () => {
               </button>
             </form>
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
-            </div>
-          </section>
+
+          <LoginCitySuggestion />
         </div>
       </main>
     </div>

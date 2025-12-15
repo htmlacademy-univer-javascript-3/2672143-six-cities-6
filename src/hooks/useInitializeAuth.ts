@@ -1,4 +1,3 @@
-// src/hooks/useInitializeAuth.ts
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { initializeAuth } from '../store/slices/authSlice';

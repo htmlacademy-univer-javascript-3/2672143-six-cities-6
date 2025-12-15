@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface RatingInputProps {
+type RatingInputProps = {
   star: number;
   isChecked: boolean;
   isDisabled?: boolean;
   title: string;
   onChange: (value: number) => void;
-}
+};
 
 export const RatingInput: React.FC<RatingInputProps> = (
   props: RatingInputProps
