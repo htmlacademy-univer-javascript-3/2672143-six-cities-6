@@ -2,9 +2,9 @@ import React from 'react';
 import { Offer } from '../../types/Offer';
 import { OfferItems } from '../OffersList/ui/OfferItems';
 
-interface NearPlacesProps {
+type NearPlacesProps = {
   offers: Offer[];
-}
+};
 
 export const NearPlaces: React.FC<NearPlacesProps> = (
   props: NearPlacesProps

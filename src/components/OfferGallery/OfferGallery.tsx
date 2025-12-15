@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface OfferGalleryProps {
+type OfferGalleryProps = {
   images: string[];
-}
+};
 
 export const OfferGallery: React.FC<OfferGalleryProps> = (
   props: OfferGalleryProps

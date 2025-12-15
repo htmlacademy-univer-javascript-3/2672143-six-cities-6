@@ -2,14 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer, OfferDetail } from '../../types/Offer';
 import { Review } from '../../types/Review';
+import { toggleFavorite } from './favoriteSlice';
 
-export interface OffersState {
+type OffersState = {
   offers: Offer[];
   isLoadingOffers: boolean;
   error: string | null;
-}
+};
 
-export interface OfferDetailState {
+type OfferDetailState = {
   offer: OfferDetail | null;
   nearbyOffers: Offer[];
   reviews: Review[];
@@ -18,7 +19,7 @@ export interface OfferDetailState {
   isLoadingReviews: boolean;
   isSubmittingReview: boolean;
   error: string | null;
-}
+};
 
 const offersInitialState: OffersState = {
   offers: [],
@@ -117,6 +118,13 @@ const offersSlice = createSlice({
         state.isLoadingOffers = false;
         state.error = action.error.message || 'Failed to load offers';
       });
+
+    builder.addCase(toggleFavorite.fulfilled, (state: OffersState, action) => {
+      const offer = state.offers.find((o) => o.id === action.payload.id);
+      if (offer) {
+        offer.isFavorite = action.payload.isFavorite;
+      }
+    });
   },
 });
 
@@ -147,6 +155,14 @@ const offerDetailSlice = createSlice({
         state.isLoadingOffer = false;
         state.error = action.error.message || 'Failed to load offer';
       });
+    builder.addCase(
+      toggleFavorite.fulfilled,
+      (state: OfferDetailState, action) => {
+        if (state.offer?.id === action.payload.id) {
+          state.offer.isFavorite = action.payload.isFavorite;
+        }
+      }
+    );
 
     builder
       .addCase(fetchNearbyOffers.pending, (state: OfferDetailState) => {

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '../store';
 import { submitReview } from '../store/slices/offersSlice';
@@ -15,9 +15,11 @@ import { OfferGoodsList } from '../components/OfferGoodsList/OfferGoodsList';
 import { OfferHost } from '../components/OfferHost/OfferHost';
 import { selectOfferPageData } from '../store/selectors';
 import { useLoadOfferData } from '../hooks/useLoadOfferData';
+import { toggleFavorite } from '../store/slices/favoriteSlice';
 
 export const OfferPage: React.FC = (): React.ReactElement => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   useLoadOfferData({ id });
 
@@ -43,6 +45,24 @@ export const OfferPage: React.FC = (): React.ReactElement => {
     },
     [id, dispatch]
   );
+
+  const handleFavoriteClick = useCallback(() => {
+    if (!isAuthorized) {
+      navigate('/login');
+      return;
+    }
+
+    if (!id || !offer) {
+      return;
+    }
+
+    void dispatch(
+      toggleFavorite({
+        offerId: id,
+        status: offer.isFavorite ? 0 : 1,
+      })
+    );
+  }, [id, offer, isAuthorized, dispatch, navigate]);
 
   if (isLoading) {
     return (
@@ -81,7 +101,13 @@ export const OfferPage: React.FC = (): React.ReactElement => {
 
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer.title}</h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button
+                  className={`offer__bookmark-button button ${
+                    offer.isFavorite ? 'offer__bookmark-button--active' : ''
+                  }`}
+                  type="button"
+                  onClick={handleFavoriteClick}
+                >
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>

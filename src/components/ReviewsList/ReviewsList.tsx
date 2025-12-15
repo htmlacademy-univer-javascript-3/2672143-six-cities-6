@@ -1,9 +1,9 @@
 import React from 'react';
 import { Review } from '../../types/Review';
 
-interface ReviewsListProps {
+type ReviewsListProps = {
   reviews: Review[];
-}
+};
 
 export const ReviewsList: React.FC<ReviewsListProps> = (
   props: ReviewsListProps

@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface OfferFeaturesProps {
+type OfferFeaturesProps = {
   type: string;
   bedrooms?: number;
   maxAdults?: number;
-}
+};
 
 export const OfferFeatures: React.FC<OfferFeaturesProps> = (
   props: OfferFeaturesProps

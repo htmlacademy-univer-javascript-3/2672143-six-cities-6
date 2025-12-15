@@ -1,12 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container } from './ui/Container/Container';
 import { Navigation } from './ui/Navigation/Navigation';
 import { selectIsAuthorized } from '../../store/selectors';
 
 export const Header: React.FC = (): React.ReactElement => {
   const isAuthorized = useSelector(selectIsAuthorized);
+  const navigate = useNavigate();
+
+  const handleFavoritesClick = () => {
+    navigate('/favorites');
+  };
 
   return (
     <header className="header">
@@ -26,8 +31,24 @@ export const Header: React.FC = (): React.ReactElement => {
               />
             </Link>
           </div>
-          {isAuthorized && <Navigation />}
-          {!isAuthorized && (
+          {isAuthorized ? (
+            <>
+              <nav className="header__nav">
+                <ul className="header__nav-list">
+                  <li className="header__nav-item">
+                    <button
+                      className="header__nav-link header__favorites-link"
+                      type="button"
+                      onClick={handleFavoritesClick}
+                    >
+                      <span className="header__favorites-text">Favorites</span>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+              <Navigation />
+            </>
+          ) : (
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item">

@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface OfferGoodsListProps {
+type OfferGoodsListProps = {
   goods: string[];
-}
+};
 
 export const OfferGoodsList: React.FC<OfferGoodsListProps> = (
   props: OfferGoodsListProps

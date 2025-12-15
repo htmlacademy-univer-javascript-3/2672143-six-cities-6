@@ -1,9 +1,9 @@
 import React from 'react';
 import { Host } from '../../types/Host';
 
-interface OfferHostProps {
+type OfferHostProps = {
   host: Host;
-}
+};
 
 export const OfferHost: React.FC<OfferHostProps> = (props: OfferHostProps) => {
   const { host } = props;

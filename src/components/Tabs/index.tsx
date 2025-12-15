@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useMemo, useCallback } from 'react';
 import { TabItem } from './ui/TabItems';
 import { City } from '../../types/City';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
+import { selectSelectedCity } from '../../store/selectors';
 import { changeCity } from '../../store/reducer';
 type TabsProp = {
   cities: City[];
@@ -10,14 +11,20 @@ type TabsProp = {
 
 export const Tabs: React.FC<TabsProp> = (props: TabsProp) => {
   const { cities } = props;
-  const [activeIndex, setActiveIndex] = useState(0);
-
   const dispatch = useDispatch<AppDispatch>();
+  const selectedCity = useSelector(selectSelectedCity);
 
-  const handleTabClick = (index: number) => {
-    setActiveIndex(index);
-    dispatch(changeCity(cities[index]));
-  };
+  const activeIndex = useMemo(
+    () => cities.findIndex((city) => city.name === selectedCity.name),
+    [cities, selectedCity.name]
+  );
+
+  const handleTabClick = useCallback(
+    (index: number) => {
+      dispatch(changeCity(cities[index]));
+    },
+    [cities, dispatch]
+  );
 
   return (
     <div className="tabs">
