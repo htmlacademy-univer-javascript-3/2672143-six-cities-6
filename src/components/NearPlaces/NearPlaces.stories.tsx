@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { Offer } from '../../types/Offer';
 import { NearPlaces } from './NearPlaces';
+import { City } from '../../types/City';
 
 const meta = {
   title: 'Components/NearPlaces',
@@ -14,6 +15,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const amsterdamCity: City = {
+  name: 'Amsterdam',
+  location: {
+    latitude: 52.3676,
+    longitude: 4.9041,
+    zoom: 12,
+  },
+};
+
 const mockOffers: Offer[] = [
   {
     id: '1',
@@ -23,31 +33,13 @@ const mockOffers: Offer[] = [
     rating: 4.8,
     isPremium: false,
     isFavorite: false,
-    city: 'Amsterdam',
+    city: amsterdamCity,
     previewImage: 'img/room.jpg',
-    images: ['img/room.jpg'],
-    latitude: 52.3609,
-    longitude: 4.8852,
-    description: 'Cozy room near the city center',
-    bedrooms: 1,
-    maxAdults: 2,
-    inside: ['Wi-Fi', 'Heating', 'Kitchen'],
-    host: {
-      name: 'John Doe',
-      avatar: 'img/avatar.jpg',
-      isPro: true,
-      description: 'Friendly and helpful host',
+    location: {
+      latitude: 52.3609,
+      longitude: 4.8852,
+      zoom: 12,
     },
-    reviews: [
-      {
-        id: 'r1',
-        user: 'Max',
-        avatar: 'img/avatar-max.jpg',
-        rating: 4.8,
-        text: 'Great place to stay!',
-        date: 'April 2024',
-      },
-    ],
   },
   {
     id: '2',
@@ -57,31 +49,13 @@ const mockOffers: Offer[] = [
     rating: 4.8,
     isPremium: false,
     isFavorite: true,
-    city: 'Amsterdam',
+    city: amsterdamCity,
     previewImage: 'img/apartment-02.jpg',
-    images: ['img/apartment-02.jpg'],
-    latitude: 52.3727,
-    longitude: 4.8885,
-    description: 'Beautiful apartment with canal view',
-    bedrooms: 2,
-    maxAdults: 4,
-    inside: ['Wi-Fi', 'Washing machine', 'Heating', 'Kitchen'],
-    host: {
-      name: 'Jane Smith',
-      avatar: 'img/avatar-jane.jpg',
-      isPro: true,
-      description: 'Professional host with great reviews',
+    location: {
+      latitude: 52.3727,
+      longitude: 4.8885,
+      zoom: 12,
     },
-    reviews: [
-      {
-        id: 'r2',
-        user: 'Anna',
-        avatar: 'img/avatar-anna.jpg',
-        rating: 4.8,
-        text: 'Perfect location and comfortable apartment',
-        date: 'March 2024',
-      },
-    ],
   },
   {
     id: '3',
@@ -91,39 +65,13 @@ const mockOffers: Offer[] = [
     rating: 5.0,
     isPremium: true,
     isFavorite: false,
-    city: 'Amsterdam',
+    city: amsterdamCity,
     previewImage: 'img/apartment-03.jpg',
-    images: ['img/apartment-03.jpg'],
-    latitude: 52.395,
-    longitude: 4.9331,
-    description: 'Premium apartment with all amenities',
-    bedrooms: 3,
-    maxAdults: 6,
-    inside: [
-      'Wi-Fi',
-      'Washing machine',
-      'Towels',
-      'Heating',
-      'Coffee machine',
-      'Kitchen',
-      'Dishwasher',
-    ],
-    host: {
-      name: 'Bob Wilson',
-      avatar: 'img/avatar-bob.jpg',
-      isPro: true,
-      description: 'Experienced host with luxury properties',
+    location: {
+      latitude: 52.395,
+      longitude: 4.9331,
+      zoom: 12,
     },
-    reviews: [
-      {
-        id: 'r3',
-        user: 'Tom',
-        avatar: 'img/avatar-tom.jpg',
-        rating: 5.0,
-        text: 'Absolutely amazing! Everything is perfect!',
-        date: 'February 2024',
-      },
-    ],
   },
 ];
 

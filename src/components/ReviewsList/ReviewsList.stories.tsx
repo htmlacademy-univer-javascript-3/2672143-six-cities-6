@@ -1,14 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReviewsList } from './ReviewsList';
-
-interface Review {
-  id: string;
-  user: string;
-  avatar: string;
-  rating: number;
-  text: string;
-  date: string;
-}
+import { Review } from '../../types/Review';
 
 const meta = {
   title: 'Components/ReviewsList',
@@ -25,34 +17,50 @@ type Story = StoryObj<typeof meta>;
 const mockReviews: Review[] = [
   {
     id: '1',
-    user: 'Max',
-    avatar: 'img/avatar-max.jpg',
+    user: {
+      name: 'Max',
+      avatarUrl: 'img/avatar-max.jpg',
+      isPro: false,
+    },
     rating: 4.8,
-    text: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+    comment:
+      'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
     date: 'April 2024',
   },
   {
     id: '2',
-    user: 'Anna',
-    avatar: 'img/avatar-anna.jpg',
+    user: {
+      name: 'Anna',
+      avatarUrl: 'img/avatar-anna.jpg',
+      isPro: true,
+    },
     rating: 4.5,
-    text: 'Great location and comfortable accommodation. The host was very helpful and responsive.',
+    comment:
+      'Great location and comfortable accommodation. The host was very helpful and responsive.',
     date: 'March 2024',
   },
   {
     id: '3',
-    user: 'John',
-    avatar: 'img/avatar-john.jpg',
+    user: {
+      name: 'John',
+      avatarUrl: 'img/avatar-john.jpg',
+      isPro: false,
+    },
     rating: 5.0,
-    text: 'Perfect! Everything was excellent. I would definitely stay here again.',
+    comment:
+      'Perfect! Everything was excellent. I would definitely stay here again.',
     date: 'February 2024',
   },
   {
     id: '4',
-    user: 'Sarah',
-    avatar: 'img/avatar-sarah.jpg',
+    user: {
+      name: 'Sarah',
+      avatarUrl: 'img/avatar-sarah.jpg',
+      isPro: false,
+    },
     rating: 3.8,
-    text: 'Good place overall, but some minor issues with the heating system. The host quickly resolved it.',
+    comment:
+      'Good place overall, but some minor issues with the heating system. The host quickly resolved it.',
     date: 'January 2024',
   },
 ];
@@ -100,7 +108,10 @@ export const ManyReviews: Story = {
       ...mockReviews.map((r, i) => ({
         ...r,
         id: `${r.id}-copy-${i}`,
-        user: `${r.user} ${i}`,
+        user: {
+          ...r.user,
+          name: `${r.user.name} ${i}`,
+        },
       })),
     ],
   },
