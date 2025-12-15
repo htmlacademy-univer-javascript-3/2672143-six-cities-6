@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import storeReducer from './reducer';
 import { sortingReducer } from './slices/sortingSlice';
-import { offersReducer } from './slices/offersSlice';
+import { offerDetailReducer, offersReducer } from './slices/offersSlice';
 import { apiClient } from '../api/api';
 import { authReducer } from './slices/authSlice';
 
@@ -10,7 +10,9 @@ export const store = configureStore({
     store: storeReducer,
     sorting: sortingReducer,
     offers: offersReducer,
-    auth: authReducer },
+    offerDetail: offerDetailReducer,
+    auth: authReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

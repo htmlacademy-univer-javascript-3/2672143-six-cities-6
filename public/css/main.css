@@ -1007,7 +1007,16 @@ img {
 }
 .offer__container {
   position: relative;
+  background-color: white 
   overflow-x: hidden;
+}
+
+.offer-page {
+  background-color: white
+}
+
+.place-container {
+  background-color: white 
 }
 .offer__wrapper {
   display: -webkit-box;
@@ -1330,7 +1339,7 @@ img {
 .offer__map {
   width: 100%;
   height: 579px;
-  margin-bottom: 50px;
+
   background-image: url(../img/map-big.jpg);
   background-repeat: no-repeat;
   background-size: 1144px auto;
