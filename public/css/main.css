@@ -1015,6 +1015,30 @@ img {
   background-color: white
 }
 
+.review-error {
+  color: #ff5555;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.login__error {
+  color: #ff5555;
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+
+.input-error {
+  color: #ff5555;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+
+.loading-container {
+  text-align: center;
+  padding: 40px;
+}
+
 .place-container {
   background-color: white 
 }

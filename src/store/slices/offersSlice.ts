@@ -5,7 +5,7 @@ import { Review } from '../../types/Review';
 
 export interface OffersState {
   offers: Offer[];
-  isLoading: boolean;
+  isLoadingOffers: boolean;
   error: string | null;
 }
 
@@ -13,14 +13,16 @@ export interface OfferDetailState {
   offer: OfferDetail | null;
   nearbyOffers: Offer[];
   reviews: Review[];
-  isLoading: boolean;
+  isLoadingOffer: boolean;
+  isLoadingNearby: boolean;
+  isLoadingReviews: boolean;
   isSubmittingReview: boolean;
   error: string | null;
 }
 
 const offersInitialState: OffersState = {
   offers: [],
-  isLoading: false,
+  isLoadingOffers: false,
   error: null,
 };
 
@@ -28,7 +30,9 @@ const offerDetailInitialState: OfferDetailState = {
   offer: null,
   nearbyOffers: [],
   reviews: [],
-  isLoading: false,
+  isLoadingOffer: false,
+  isLoadingNearby: false,
+  isLoadingReviews: false,
   isSubmittingReview: false,
   error: null,
 };
@@ -101,16 +105,16 @@ const offersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOffers.pending, (state: OffersState) => {
-        state.isLoading = true;
+        state.isLoadingOffers = true;
         state.error = null;
       })
       .addCase(fetchOffers.fulfilled, (state: OffersState, action) => {
-        state.isLoading = false;
+        state.isLoadingOffers = false;
         state.offers = action.payload;
         state.error = null;
       })
       .addCase(fetchOffers.rejected, (state: OffersState, action) => {
-        state.isLoading = false;
+        state.isLoadingOffers = false;
         state.error = action.error.message || 'Failed to load offers';
       });
   },
@@ -130,49 +134,51 @@ const offerDetailSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOfferById.pending, (state: OfferDetailState) => {
-        state.isLoading = true;
+        state.isLoadingOffer = true;
         state.error = null;
       })
       .addCase(fetchOfferById.fulfilled, (state: OfferDetailState, action) => {
         state.offer = action.payload;
-        state.isLoading = false;
+        state.isLoadingOffer = false;
         state.error = null;
       })
       .addCase(fetchOfferById.rejected, (state: OfferDetailState, action) => {
         state.offer = null;
-        state.isLoading = false;
+        state.isLoadingOffer = false;
         state.error = action.error.message || 'Failed to load offer';
       });
 
     builder
       .addCase(fetchNearbyOffers.pending, (state: OfferDetailState) => {
-        state.isLoading = true;
+        state.isLoadingNearby = true;
       })
       .addCase(
         fetchNearbyOffers.fulfilled,
         (state: OfferDetailState, action) => {
           state.nearbyOffers = action.payload;
-          state.isLoading = false;
+          state.isLoadingNearby = false;
         }
       )
       .addCase(
         fetchNearbyOffers.rejected,
         (state: OfferDetailState, action) => {
           state.nearbyOffers = [];
+          state.isLoadingNearby = false;
           state.error = action.error.message || 'Failed to load nearby offers';
         }
       );
 
     builder
       .addCase(fetchReviews.pending, (state: OfferDetailState) => {
-        state.isLoading = true;
+        state.isLoadingReviews = true;
       })
       .addCase(fetchReviews.fulfilled, (state: OfferDetailState, action) => {
         state.reviews = action.payload;
-        state.isLoading = false;
+        state.isLoadingReviews = false;
       })
       .addCase(fetchReviews.rejected, (state: OfferDetailState, action) => {
         state.reviews = [];
+        state.isLoadingReviews = false;
         state.error = action.error.message || 'Failed to load reviews';
       });
 
