@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import Main from './pages/Main';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRouter/PrivateRouter';
@@ -7,16 +6,10 @@ import { LoginPage } from './pages/Login';
 import { FavoritesPage } from './pages/Favorite';
 import NotFoundPage from './pages/NotFound';
 import groupedMockFavorites from './mocs/Favorites';
-import { useDispatch } from 'react-redux';
-import { initializeAuth } from './store/slices/authSlice';
-import type { AppDispatch } from './store';
+import { useInitializeAuth } from './hooks/useInitializeAuth';
 
 export const AppInitializer: React.FC = (): React.ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(initializeAuth());
-  }, [dispatch]);
+  useInitializeAuth();
 
   return (
     <BrowserRouter>

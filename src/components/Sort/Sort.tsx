@@ -1,33 +1,35 @@
-import React from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortType, SortType } from '../../store/slices/sortingSlice';
+import { setSortType } from '../../store/slices/sortingSlice';
 import { selectSortType } from '../../store/selectors';
 import styles from './Sort.module.css';
-
-const SORT_OPTIONS: { label: string; value: SortType }[] = [
-  { label: 'Popular', value: 'popular' },
-  { label: 'Price: low to high', value: 'priceLow' },
-  { label: 'Price: high to low', value: 'priceHigh' },
-  { label: 'Top rated first', value: 'rating' },
-];
+import { SORT_OPTIONS } from '../../constants/sort-options';
+import { ICONS } from '../../assets';
 
 export const Sort: React.FC = () => {
   const dispatch = useDispatch();
   const currentSort = useSelector(selectSortType);
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleSortChange = (sortType: SortType) => {
-    dispatch(setSortType(sortType));
-    setIsOpen(false);
-  };
+  const currentLabel = useMemo(
+    () =>
+      SORT_OPTIONS.find((opt) => opt.value === currentSort)?.label || 'Popular',
+    [currentSort]
+  );
 
-  const currentLabel =
-    SORT_OPTIONS.find((opt) => opt.value === currentSort)?.label || 'Popular';
+  const handleSortChange = useCallback(
+    (sortType: typeof currentSort) => {
+      dispatch(setSortType(sortType));
+      setIsOpen(false);
+    },
+    [dispatch]
+  );
 
   return (
     <form className={styles.sort}>
       <span className={styles.sortTitle}>Sort by</span>
-      <div className={styles.sortOptions}>
+      <div className={styles.sortOptions} ref={dropdownRef}>
         <button
           className={styles.sortButton}
           type="button"
@@ -36,20 +38,12 @@ export const Sort: React.FC = () => {
           aria-expanded={isOpen}
         >
           {currentLabel}
-          <svg
+          <img
+            src={ICONS.sortArrow}
+            alt=""
             className={styles.sortArrow}
-            width="7"
-            height="4"
-            viewBox="0 0 7 4"
-            fill="none"
-          >
-            <path
-              d="M1 1L3.5 3L6 1"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
+            aria-hidden="true"
+          />
         </button>
 
         {isOpen && (

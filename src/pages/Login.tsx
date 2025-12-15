@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Header } from '../components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoading, selectAuthError } from '../store/selectors';
 import type { AppDispatch } from '../store';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../store/slices/authSlice';
+import { validateEmail } from '../utils/validateEmail';
+import { validatePassword } from '../utils/validatePassword';
 interface ValidationErrors {
   email?: string;
   password?: string;
@@ -16,23 +18,13 @@ export const LoginPage: React.FC = () => {
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
     {}
   );
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoading = useSelector(selectAuthIsLoading);
   const error = useSelector(selectAuthError);
 
-  const validateEmail = (emailValue: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(emailValue);
-  };
-
-  const validatePassword = (passwordValue: string): boolean => {
-    const hasLetter = /[a-zA-Z]/.test(passwordValue);
-    const hasDigit = /\d/.test(passwordValue);
-    return hasLetter && hasDigit && passwordValue.length > 0;
-  };
-
-  const validateForm = (): boolean => {
+  const validateForm = useCallback((): boolean => {
     const errors: ValidationErrors = {};
 
     if (!email.trim()) {
@@ -50,23 +42,44 @@ export const LoginPage: React.FC = () => {
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
-  };
+  }, [email, password]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const handleInputChange = useCallback(
+    (field: 'email' | 'password', value: string) => {
+      if (field === 'email') {
+        setEmail(value);
+      } else {
+        setPassword(value);
+      }
 
-    if (!validateForm()) {
-      return;
-    }
+      if (validationErrors[field]) {
+        setValidationErrors((prev) => ({
+          ...prev,
+          [field]: undefined,
+        }));
+      }
+    },
+    [validationErrors]
+  );
 
-    void dispatch(login({ email, password }))
-      .then((result) => {
-        if (login.fulfilled.match(result)) {
-          navigate('/');
-        }
-      })
-      .catch(() => {});
-  };
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>): void => {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        return;
+      }
+
+      void dispatch(login({ email, password }))
+        .then((result) => {
+          if (login.fulfilled.match(result)) {
+            navigate('/');
+          }
+        })
+        .catch(() => {});
+    },
+    [email, password, validateForm, dispatch, navigate]
+  );
 
   return (
     <div className="page page--gray page--login">
@@ -75,9 +88,7 @@ export const LoginPage: React.FC = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            {error && (
-              <p style={{ color: '#ff5555', marginBottom: '20px' }}>{error}</p>
-            )}
+            {error && <p className="login__error">{error}</p>}
             <form className="login__form form" onSubmit={handleSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
@@ -87,30 +98,15 @@ export const LoginPage: React.FC = () => {
                   name="email"
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (validationErrors.email) {
-                      setValidationErrors({
-                        ...validationErrors,
-                        email: undefined,
-                      });
-                    }
-                  }}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
                   required
                   disabled={isLoading}
                 />
                 {validationErrors.email && (
-                  <p
-                    style={{
-                      color: '#ff5555',
-                      fontSize: '12px',
-                      marginTop: '5px',
-                    }}
-                  >
-                    {validationErrors.email}
-                  </p>
+                  <p className="input-error">{validationErrors.email}</p>
                 )}
               </div>
+
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
@@ -119,30 +115,16 @@ export const LoginPage: React.FC = () => {
                   name="password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (validationErrors.password) {
-                      setValidationErrors({
-                        ...validationErrors,
-                        password: undefined,
-                      });
-                    }
-                  }}
+                  onChange={(e) =>
+                    handleInputChange('password', e.target.value)}
                   required
                   disabled={isLoading}
                 />
                 {validationErrors.password && (
-                  <p
-                    style={{
-                      color: '#ff5555',
-                      fontSize: '12px',
-                      marginTop: '5px',
-                    }}
-                  >
-                    {validationErrors.password}
-                  </p>
+                  <p className="input-error">{validationErrors.password}</p>
                 )}
               </div>
+
               <button
                 className="login__submit form__submit button"
                 type="submit"

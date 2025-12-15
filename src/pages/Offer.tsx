@@ -1,70 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '../store';
-import {
-  fetchOfferById,
-  fetchNearbyOffers,
-  fetchReviews,
-  submitReview,
-} from '../store/slices/offersSlice';
-import {
-  selectOffer,
-  selectNearbyOffers,
-  selectReviews,
-  selectOfferIsLoading,
-  selectOfferIsSubmittingReview,
-  selectOfferError,
-  selectIsAuthorized,
-} from '../store/selectors';
+import { submitReview } from '../store/slices/offersSlice';
+
 import { ReviewForm } from '../components/ReviewForm/ReviewForm';
 import { ReviewsList } from '../components/ReviewsList/ReviewsList';
 import { NearPlaces } from '../components/NearPlaces/NearPlaces';
 import { Map } from '../components/Map/Map';
 import { Header } from '../components/Header';
+import { OfferGallery } from '../components/OfferGallery/OfferGallery';
+import { OfferFeatures } from '../components/OfferFeatures/OfferFeatures';
+import { OfferGoodsList } from '../components/OfferGoodsList/OfferGoodsList';
+import { OfferHost } from '../components/OfferHost/OfferHost';
+import { selectOfferPageData } from '../store/selectors';
+import { useLoadOfferData } from '../hooks/useLoadOfferData';
 
 export const OfferPage: React.FC = (): React.ReactElement => {
   const { id } = useParams<{ id: string }>();
+
+  useLoadOfferData({ id });
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const offer = useSelector(selectOffer);
-  const nearbyOffers = useSelector(selectNearbyOffers);
-  const reviews = useSelector(selectReviews);
-  const isLoading = useSelector(selectOfferIsLoading);
-  const isSubmittingReview = useSelector(selectOfferIsSubmittingReview);
-  const error = useSelector(selectOfferError);
-  const isAuthorized = useSelector(selectIsAuthorized);
+  const {
+    offer,
+    nearbyOffers,
+    reviews,
+    isLoading,
+    isSubmittingReview,
+    error,
+    isAuthorized,
+  } = useSelector(selectOfferPageData);
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-
-    void dispatch(fetchOfferById(id)).then((result) => {
-      if (fetchOfferById.fulfilled.match(result)) {
-        void dispatch(fetchNearbyOffers(id));
-        void dispatch(fetchReviews(id));
+  const handleReviewSubmit = useCallback(
+    (rating: number, comment: string): void => {
+      if (!id) {
+        return;
       }
-    });
-  }, [id, dispatch]);
 
-  const handleReviewSubmit = (rating: number, comment: string): void => {
-    if (!id) {
-      return;
-    }
-
-    void dispatch(submitReview({ offerId: id, rating, comment }));
-  };
+      void dispatch(submitReview({ offerId: id, rating, comment }));
+    },
+    [id, dispatch]
+  );
 
   if (isLoading) {
     return (
       <div className="page">
         <Header />
         <main className="page__main page__main--offer">
-          <div
-            className="container"
-            style={{ textAlign: 'center', padding: '40px' }}
-          >
+          <div className="loading-container">
             <p>Loading offer...</p>
           </div>
         </main>
@@ -76,19 +61,6 @@ export const OfferPage: React.FC = (): React.ReactElement => {
     return <Navigate to="/not-found" />;
   }
 
-  const {
-    title,
-    type,
-    price,
-    isPremium,
-    rating,
-    images,
-    bedrooms,
-    maxAdults,
-    goods,
-    host,
-  } = offer;
-
   return (
     <div className="page">
       <Header />
@@ -96,24 +68,19 @@ export const OfferPage: React.FC = (): React.ReactElement => {
       <main className="page__main page__main--offer">
         <section className="offer offer-page">
           <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              {(images || []).map((image: string) => (
-                <div key={image} className="offer__image-wrapper">
-                  <img className="offer__image" src={image} alt="Photo" />
-                </div>
-              ))}
-            </div>
+            <OfferGallery images={offer.images} />
           </div>
 
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium && (
+              {offer.isPremium && (
                 <div className="offer__mark">
                   <span>Premium</span>
                 </div>
               )}
+
               <div className="offer__name-wrapper">
-                <h1 className="offer__name">{title}</h1>
+                <h1 className="offer__name">{offer.title}</h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -124,68 +91,28 @@ export const OfferPage: React.FC = (): React.ReactElement => {
 
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{ width: `${(rating / 5) * 100}%` }}></span>
+                  <span style={{ width: `${(offer.rating / 5) * 100}%` }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">
-                  {rating}
+                  {offer.rating}
                 </span>
               </div>
 
-              <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">
-                  {type}
-                </li>
-                {bedrooms && (
-                  <li className="offer__feature offer__feature--bedrooms">
-                    {bedrooms} Bedrooms
-                  </li>
-                )}
-                {maxAdults && (
-                  <li className="offer__feature offer__feature--adults">
-                    Max {maxAdults} adults
-                  </li>
-                )}
-              </ul>
+              <OfferFeatures
+                type={offer.type}
+                bedrooms={offer.bedrooms}
+                maxAdults={offer.maxAdults}
+              />
 
               <div className="offer__price">
-                <b className="offer__price-value">&euro;{price}</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
 
-              {goods && goods.length > 0 && (
-                <div className="offer__inside">
-                  <h2 className="offer__inside-title">What&apos;s inside</h2>
-                  <ul className="offer__inside-list">
-                    {goods.map((item: string) => (
-                      <li key={item} className="offer__inside-item">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <OfferGoodsList goods={offer.goods} />
 
-              {host && (
-                <div className="offer__host">
-                  <h2 className="offer__host-title">Meet the host</h2>
-                  <div className="offer__host-user user">
-                    <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                      <img
-                        className="offer__avatar user__avatar"
-                        src={host.avatarUrl}
-                        width="74"
-                        height="74"
-                        alt={`Host ${host.name}`}
-                      />
-                    </div>
-                    <span className="offer__user-name">{host.name}</span>
-                    {host.isPro && (
-                      <span className="offer__user-status">Pro</span>
-                    )}
-                  </div>
-                </div>
-              )}
+              {offer.host && <OfferHost host={offer.host} />}
 
               {reviews && reviews.length > 0 && (
                 <ReviewsList reviews={reviews} />
@@ -201,7 +128,7 @@ export const OfferPage: React.FC = (): React.ReactElement => {
           </div>
         </section>
 
-        <section className="offer__map ">
+        <section className="offer__map">
           <Map offers={nearbyOffers} />
         </section>
 

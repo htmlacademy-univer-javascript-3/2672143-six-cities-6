@@ -1,7 +1,13 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { Offer, OfferDetail } from '../types/Offer';
 import { Review } from '../types/Review';
 import { RootState } from './index';
 import { AuthorizationStatus } from './slices/authSlice';
+
+const selectOffersState = (state: RootState) => state.offers.offers;
+const selectSelectedCityName = (state: RootState) =>
+  state.store.selectedCity.name;
+const selectSortTypeState = (state: RootState) => state.sorting.sortType;
 
 export const selectSelectedCity = (state: RootState) =>
   state.store.selectedCity;
@@ -9,37 +15,39 @@ export const selectSelectedCity = (state: RootState) =>
 export const selectOffers = (state: RootState): Offer[] => state.offers.offers;
 
 export const selectIsLoadingOffers = (state: RootState): boolean =>
-  state.offers.isLoading;
+  state.offers.isLoadingOffers;
 
 export const selectOffersError = (state: RootState): string | null =>
   state.offers.error;
 
-export const selectOffersByCity = (state: RootState): Offer[] => {
-  const offers: Offer[] = state.offers.offers;
-  const selectedCityName: string = state.store.selectedCity.name;
-  return offers.filter((offer: Offer) => offer.city.name === selectedCityName);
-};
+export const selectOffersByCity = createSelector(
+  [selectOffersState, selectSelectedCityName],
+  (offers, cityName) => offers.filter((offer) => offer.city.name === cityName)
+);
 
 export const selectSortType = (state: RootState) => state.sorting.sortType;
 
-export const selectSortedOffers = (state: RootState): Offer[] => {
-  const offers: Offer[] = selectOffersByCity(state);
-  const sortType = selectSortType(state);
+export const selectSortedOffers = createSelector(
+  [selectOffersByCity, selectSortTypeState],
+  (offers, sortType) => {
+    const sorted = [...offers];
 
-  const sortedOffers: Offer[] = [...offers];
-
-  switch (sortType) {
-    case 'priceLow':
-      return sortedOffers.sort((a: Offer, b: Offer) => a.price - b.price);
-    case 'priceHigh':
-      return sortedOffers.sort((a: Offer, b: Offer) => b.price - a.price);
-    case 'rating':
-      return sortedOffers.sort((a: Offer, b: Offer) => b.rating - a.rating);
-    case 'popular':
-    default:
-      return sortedOffers;
+    switch (sortType) {
+      case 'priceLow':
+        sorted.sort((a, b) => a.price - b.price);
+        return sorted;
+      case 'priceHigh':
+        sorted.sort((a, b) => b.price - a.price);
+        return sorted;
+      case 'rating':
+        sorted.sort((a, b) => b.rating - a.rating);
+        return sorted;
+      case 'popular':
+      default:
+        return sorted;
+    }
   }
-};
+);
 
 export const selectAuthorizationStatus = (state: RootState) =>
   state.auth.authorizationStatus;
@@ -65,10 +73,39 @@ export const selectReviews = (state: RootState): Review[] =>
   state.offerDetail.reviews;
 
 export const selectOfferIsLoading = (state: RootState): boolean =>
-  state.offerDetail.isLoading;
+  state.offerDetail.isLoadingOffer;
 
 export const selectOfferIsSubmittingReview = (state: RootState): boolean =>
   state.offerDetail.isSubmittingReview;
 
 export const selectOfferError = (state: RootState): string | null =>
   state.offerDetail.error;
+
+export const selectOfferPageData = createSelector(
+  [
+    selectOffer,
+    selectNearbyOffers,
+    selectReviews,
+    selectOfferIsLoading,
+    selectOfferIsSubmittingReview,
+    selectOfferError,
+    selectIsAuthorized,
+  ],
+  (
+    offer,
+    nearbyOffers,
+    reviews,
+    isLoading,
+    isSubmittingReview,
+    error,
+    isAuthorized
+  ) => ({
+    offer,
+    nearbyOffers,
+    reviews,
+    isLoading,
+    isSubmittingReview,
+    error,
+    isAuthorized,
+  })
+);

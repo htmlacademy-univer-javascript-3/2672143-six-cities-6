@@ -1,7 +1,5 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
-
-const API_BASE_URL = 'https://14.design.htmlacademy.pro/six-cities';
-const REQUEST_TIMEOUT = 5000;
+import { API_BASE_URL, REQUEST_TIMEOUT } from '../constants/api';
 
 export const createApiClient = (): AxiosInstance => {
   const api = axios.create({
