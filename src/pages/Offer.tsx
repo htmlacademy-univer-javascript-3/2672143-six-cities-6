@@ -1,23 +1,78 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Offer } from '../types/Offer';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '../store';
+import {
+  fetchOfferById,
+  fetchNearbyOffers,
+  fetchReviews,
+  submitReview,
+} from '../store/slices/offersSlice';
+import {
+  selectOffer,
+  selectNearbyOffers,
+  selectReviews,
+  selectOfferIsLoading,
+  selectOfferIsSubmittingReview,
+  selectOfferError,
+  selectIsAuthorized,
+} from '../store/selectors';
 import { ReviewForm } from '../components/ReviewForm/ReviewForm';
 import { ReviewsList } from '../components/ReviewsList/ReviewsList';
 import { NearPlaces } from '../components/NearPlaces/NearPlaces';
 import { Map } from '../components/Map/Map';
+import { Header } from '../components/Header';
 
-type OfferPageProps = {
-  offers: Offer[];
-};
-
-export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
+export const OfferPage: React.FC = (): React.ReactElement => {
   const { id } = useParams<{ id: string }>();
-  const offer = offers.find((o) => o.id === id);
-  const nearOffers = offers.filter((o) => o.id !== id);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [reviews, setReviews] = useState(offer?.reviews || []);
+  const offer = useSelector(selectOffer);
+  const nearbyOffers = useSelector(selectNearbyOffers);
+  const reviews = useSelector(selectReviews);
+  const isLoading = useSelector(selectOfferIsLoading);
+  const isSubmittingReview = useSelector(selectOfferIsSubmittingReview);
+  const error = useSelector(selectOfferError);
+  const isAuthorized = useSelector(selectIsAuthorized);
 
-  if (!offer) {
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    void dispatch(fetchOfferById(id)).then((result) => {
+      if (fetchOfferById.fulfilled.match(result)) {
+        void dispatch(fetchNearbyOffers(id));
+        void dispatch(fetchReviews(id));
+      }
+    });
+  }, [id, dispatch]);
+
+  const handleReviewSubmit = (rating: number, comment: string): void => {
+    if (!id) {
+      return;
+    }
+
+    void dispatch(submitReview({ offerId: id, rating, comment }));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="page">
+        <Header />
+        <main className="page__main page__main--offer">
+          <div
+            className="container"
+            style={{ textAlign: 'center', padding: '40px' }}
+          >
+            <p>Loading offer...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error || !offer) {
     return <Navigate to="/not-found" />;
   }
 
@@ -30,73 +85,19 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
     images,
     bedrooms,
     maxAdults,
-    inside,
+    goods,
     host,
   } = offer;
 
-  const handleReviewSubmit = (newRating: number, newText: string) => {
-    const newReview = {
-      id: `r${Date.now()}`,
-      user: 'You',
-      avatar: 'img/avatar-max.jpg',
-      rating: newRating,
-      text: newText,
-      date: new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
-    };
-
-    setReviews([...reviews, newReview]);
-  };
-
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link" href="/">
-                <img
-                  className="header__logo"
-                  src="/img/logo.svg"
-                  alt="6 cities logo"
-                  width="81"
-                  height="41"
-                />
-              </a>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a
-                    className="header__nav-link header__nav-link--profile"
-                    href="#"
-                  >
-                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                    <span className="header__user-name user__name">
-                      Oliver.conner@gmail.com
-                    </span>
-                    <span className="header__favorite-count">3</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="page__main page__main--offer">
-        <section className="offer">
+        <section className="offer offer-page">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {(images || []).map((image) => (
+              {(images || []).map((image: string) => (
                 <div key={image} className="offer__image-wrapper">
                   <img className="offer__image" src={image} alt="Photo" />
                 </div>
@@ -152,11 +153,11 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
 
-              {inside && inside.length > 0 && (
+              {goods && goods.length > 0 && (
                 <div className="offer__inside">
                   <h2 className="offer__inside-title">What&apos;s inside</h2>
                   <ul className="offer__inside-list">
-                    {inside.map((item) => (
+                    {goods.map((item: string) => (
                       <li key={item} className="offer__inside-item">
                         {item}
                       </li>
@@ -172,7 +173,7 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
                     <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
                       <img
                         className="offer__avatar user__avatar"
-                        src={host.avatar}
+                        src={host.avatarUrl}
                         width="74"
                         height="74"
                         alt={`Host ${host.name}`}
@@ -183,25 +184,28 @@ export const OfferPage: React.FC<OfferPageProps> = ({ offers }) => {
                       <span className="offer__user-status">Pro</span>
                     )}
                   </div>
-                  <div className="offer__description">
-                    <p className="offer__text">{host.description}</p>
-                  </div>
                 </div>
               )}
 
               {reviews && reviews.length > 0 && (
                 <ReviewsList reviews={reviews} />
               )}
-              <ReviewForm onSubmit={handleReviewSubmit} />
+
+              {isAuthorized && (
+                <ReviewForm
+                  onSubmit={handleReviewSubmit}
+                  isLoading={isSubmittingReview}
+                />
+              )}
             </div>
           </div>
         </section>
 
         <section className="offer__map ">
-          <Map offers={offers} />
+          <Map offers={nearbyOffers} />
         </section>
 
-        <NearPlaces offers={nearOffers} />
+        {nearbyOffers.length > 0 && <NearPlaces offers={nearbyOffers} />}
       </main>
     </div>
   );
