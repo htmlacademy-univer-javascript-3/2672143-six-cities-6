@@ -2,14 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AuthInfo } from '../../types/AuthInfo';
 import { AuthorizationStatus } from '../../enums/AuthorizationStatus';
-
-
-type AuthState = {
-  authorizationStatus: AuthorizationStatus;
-  user: AuthInfo | null;
-  isLoading: boolean;
-  error: string | null;
-};
+import { AuthState } from '../../types/AuthState';
 
 const initialState: AuthState = {
   authorizationStatus: AuthorizationStatus.Unknown,

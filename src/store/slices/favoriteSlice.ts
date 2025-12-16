@@ -1,12 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../../types/Offer';
-
-type FavoritesState = {
-  favorites: Offer[];
-  isLoading: boolean;
-  error: string | null;
-};
+import { FavoritesState } from '../../types/FavoritesState';
 
 const initialState: FavoritesState = {
   favorites: [],
@@ -42,25 +37,27 @@ const favoritesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFavorites.pending, (state) => {
+      .addCase(fetchFavorites.pending, (state: FavoritesState) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchFavorites.fulfilled, (state, action) => {
-        state.favorites = action.payload;
+      .addCase(fetchFavorites.fulfilled, (state: FavoritesState, action) => {
         state.isLoading = false;
+        state.favorites = action.payload;
         state.error = null;
       })
-      .addCase(fetchFavorites.rejected, (state, action) => {
+      .addCase(fetchFavorites.rejected, (state: FavoritesState, action) => {
         state.isLoading = false;
         state.error = action.error.message || 'Failed to load favorites';
       });
 
     builder
-      .addCase(toggleFavorite.pending, (state) => {
+      .addCase(toggleFavorite.pending, (state: FavoritesState) => {
+        state.isLoading = true;
         state.error = null;
       })
-      .addCase(toggleFavorite.fulfilled, (state, action) => {
+      .addCase(toggleFavorite.fulfilled, (state: FavoritesState, action) => {
+        state.isLoading = false;
         const index = state.favorites.findIndex(
           (fav) => fav.id === action.payload.id
         );
@@ -78,7 +75,8 @@ const favoritesSlice = createSlice({
         }
         state.error = null;
       })
-      .addCase(toggleFavorite.rejected, (state, action) => {
+      .addCase(toggleFavorite.rejected, (state: FavoritesState, action) => {
+        state.isLoading = false;
         state.error = action.error.message || 'Failed to toggle favorite';
       });
   },

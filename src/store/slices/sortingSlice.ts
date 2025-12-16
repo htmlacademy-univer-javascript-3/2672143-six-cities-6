@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type SortType = 'popular' | 'priceLow' | 'priceHigh' | 'rating';
-
-interface SortingState {
-  sortType: SortType;
-}
+import { SortingState, SortType } from '../../types/SortingState';
 
 const initialState: SortingState = {
   sortType: 'popular',
