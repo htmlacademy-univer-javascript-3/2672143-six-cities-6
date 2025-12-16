@@ -3,23 +3,7 @@ import { AxiosInstance } from 'axios';
 import { Offer, OfferDetail } from '../../types/Offer';
 import { Review } from '../../types/Review';
 import { toggleFavorite } from './favoriteSlice';
-
-type OffersState = {
-  offers: Offer[];
-  isLoadingOffers: boolean;
-  error: string | null;
-};
-
-type OfferDetailState = {
-  offer: OfferDetail | null;
-  nearbyOffers: Offer[];
-  reviews: Review[];
-  isLoadingOffer: boolean;
-  isLoadingNearby: boolean;
-  isLoadingReviews: boolean;
-  isSubmittingReview: boolean;
-  error: string | null;
-};
+import { OfferDetailState, OffersState } from '../../types/OfferState';
 
 const offersInitialState: OffersState = {
   offers: [],
