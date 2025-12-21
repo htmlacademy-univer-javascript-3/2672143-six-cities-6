@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
-import { Header } from '../components/Header';
+import { Header } from '../components/header';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoading, selectAuthError } from '../store/selectors';
 import type { AppDispatch } from '../store';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../store/slices/authSlice';
-import { validateEmail } from '../utils/validateEmail';
-import { validatePassword } from '../utils/validatePassword';
-import { LoginCitySuggestion } from '../components/LoginCitySuggestion/LoginCitySuggestion';
+import { login } from '../store/slices/auth-slice';
+import { validateEmail } from '../utils/validate-email';
+import { validatePassword } from '../utils/validate-password';
+import { LoginCitySuggestion } from '../components/login-city-suggestion/login-city-suggestion';
 
 type ValidationErrors = {
   email?: string;

@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Tabs } from '../components/Tabs';
-import { Header } from '../components/Header';
+import { Tabs } from '../components/tabs';
+import { Header } from '../components/header';
 
 import { cities } from '../mocs/cities';
 
@@ -12,12 +12,12 @@ import {
   selectIsLoadingOffers,
   selectIsAuthorized,
 } from '../store/selectors';
-import { Spinner } from '../components/Spinner/Spinner';
-import { useInitializeOffers } from '../hooks/useInitializeOffers';
+import { Spinner } from '../components/spinner/spinner';
+import { useInitializeOffers } from '../hooks/use-initialize-offers';
 import type { AppDispatch } from '../store';
-import { toggleFavorite } from '../store/slices/favoriteSlice';
-import { EmptyOffersSection } from '../components/EmptyOfferSection/EmptyOfferSection';
-import { OffersContent } from '../components/OffersContent/OffersContent';
+import { toggleFavorite } from '../store/slices/favorite-slice';
+import { OffersContent } from '../components/offers-content/offers-content';
+import { EmptyOffersSection } from '../components/empty-offer-section/empty-offer-section';
 
 const Main: React.FC = () => {
   const [hoveredOfferId, setHoveredOfferId] = useState<string | null>(null);

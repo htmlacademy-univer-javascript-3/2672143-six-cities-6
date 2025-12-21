@@ -1,4 +1,4 @@
-import { City } from './City';
+import { City } from './city-data';
 
 export type Offer = {
   id: string;

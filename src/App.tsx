@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { AppInitializer } from './AppInitializer';
+import { AppInitializer } from './app-initializer';
 import { store } from './store';
 
 export const App: React.FC = (): React.ReactElement => (

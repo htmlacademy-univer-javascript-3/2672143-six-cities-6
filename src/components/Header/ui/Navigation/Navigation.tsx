@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectUser } from '../../../../store/selectors';
-import { logout } from '../../../../store/slices/authSlice';
+import { logout } from '../../../../store/slices/auth-slice';
 import type { AppDispatch } from '../../../../store';
 
 export const Navigation: React.FC = (): React.ReactElement => {

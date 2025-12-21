@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import { TabItem } from './ui/TabItems';
-import { City } from '../../types/City';
+import { TabItem } from './ui/tab-items';
+import { City } from '../../types/city-data';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { selectSelectedCity } from '../../store/selectors';

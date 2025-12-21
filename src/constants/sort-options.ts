@@ -1,4 +1,4 @@
-import { SortType } from '../types/SortingState';
+import { SortType } from '../types/sorting-state';
 
 export const SORT_OPTIONS: { label: string; value: SortType }[] = [
   { label: 'Popular', value: 'popular' },

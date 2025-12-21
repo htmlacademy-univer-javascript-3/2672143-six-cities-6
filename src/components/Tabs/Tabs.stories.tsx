@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { City } from '../../types/City';
+import type { City } from '../../types/city-data';
 import { Tabs } from '.';
 
 const meta = {

@@ -2,20 +2,20 @@ import React, { useCallback } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '../store';
-import { submitReview } from '../store/slices/offersSlice';
+import { submitReview } from '../store/slices/offers-slice';
 
-import { ReviewForm } from '../components/ReviewForm/ReviewForm';
-import { ReviewsList } from '../components/ReviewsList/ReviewsList';
-import { NearPlaces } from '../components/NearPlaces/NearPlaces';
-import { Map } from '../components/Map/Map';
-import { Header } from '../components/Header';
-import { OfferGallery } from '../components/OfferGallery/OfferGallery';
-import { OfferFeatures } from '../components/OfferFeatures/OfferFeatures';
-import { OfferGoodsList } from '../components/OfferGoodsList/OfferGoodsList';
-import { OfferHost } from '../components/OfferHost/OfferHost';
+import { ReviewForm } from '../components/review-form/review-form';
+import { ReviewsList } from '../components/reviews-list/reviews-list';
+import { NearPlaces } from '../components/near-places/near-places';
+import { Map } from '../components/map/map';
+import { Header } from '../components/header';
+import { OfferGallery } from '../components/offer-gallery/offer-gallery';
+import { OfferFeatures } from '../components/offer-features/offer-features';
+import { OfferGoodsList } from '../components/offer-goods-list/offer-goods-list';
+import { OfferHost } from '../components/offer-host/offer-host';
 import { selectOfferPageData } from '../store/selectors';
-import { useLoadOfferData } from '../hooks/useLoadOfferData';
-import { toggleFavorite } from '../store/slices/favoriteSlice';
+import { useLoadOfferData } from '../hooks/use-load-offer-data';
+import { toggleFavorite } from '../store/slices/favorite-slice';
 
 export const OfferPage: React.FC = (): React.ReactElement => {
   const { id } = useParams<{ id: string }>();

@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { Header } from '..';
-import { authReducer } from '../../../store/slices/authSlice';
-import { AuthorizationStatus } from '../../../enums/AuthorizationStatus';
-import type { AuthState } from '../../../types/AuthState';
-import type { AuthInfo } from '../../../types/AuthInfo';
+import { authReducer } from '../../../store/slices/auth-slice';
+import { AuthorizationStatus } from '../../../enums/authorization-status';
+import type { AuthState } from '../../../types/auth-state';
+import type { AuthInfo } from '../../../types/auth-info';
 
 const mockUser: AuthInfo = {
   email: 'user@example.com',

@@ -1,4 +1,4 @@
-import { City } from '../../../types/City';
+import { City } from '../../../types/city-data';
 import storeReducer, { changeCity } from '../../reducer';
 
 describe('storeSlice (city reducer)', () => {

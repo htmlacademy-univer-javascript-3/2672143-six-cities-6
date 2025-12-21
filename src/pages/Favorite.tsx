@@ -1,15 +1,15 @@
-import { Header } from '../components/Header';
-import { OfferItems } from '../components/OffersList/ui/OfferItems';
+import { Header } from '../components/header';
+import { OfferItems } from '../components/offers-list/ui/offer-items';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectFavoritesGroupedByCity,
   selectIsAuthorized,
 } from '../store/selectors';
 import { useNavigate } from 'react-router-dom';
-import { useInitializeFavorites } from '../hooks/useInitializeFavorites';
+import { useInitializeFavorites } from '../hooks/use-initialize-favorites';
 import { useCallback } from 'react';
 import type { AppDispatch } from '../store';
-import { toggleFavorite } from '../store/slices/favoriteSlice';
+import { toggleFavorite } from '../store/slices/favorite-slice';
 
 export const FavoritesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
