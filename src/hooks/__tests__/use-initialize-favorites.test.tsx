@@ -9,9 +9,9 @@ import {
 import { AuthorizationStatus } from '../../enums/authorization-status';
 import type { AuthState } from '../../types/auth-state';
 
-vi.mock('../../store/slices/favoriteSlice', async () => {
+vi.mock('../../store/slices/favorite-slice', async () => {
   const actual = await vi.importActual<
-    typeof import('../../store/slices/favorite-slice')>('../../store/slices/favoriteSlice');
+    typeof import('../../store/slices/favorite-slice')>('../../store/slices/favorite-slice');
   return {
     ...actual,
     fetchFavorites: vi.fn(() => ({ type: 'favorites/fetchFavorites' })),

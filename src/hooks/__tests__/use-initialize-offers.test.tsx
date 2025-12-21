@@ -5,9 +5,9 @@ import { useInitializeOffers } from '../use-initialize-offers';
 import { fetchOffers } from '../../store/slices/offers-slice';
 import type { Offer } from '../../types/offer';
 
-vi.mock('../../store/slices/offersSlice', async () => {
+vi.mock('../../store/slices/offers-slice', async () => {
   const actual = await vi.importActual<
-    typeof import('../../store/slices/offers-slice')>('../../store/slices/offersSlice');
+    typeof import('../../store/slices/offers-slice')>('../../store/slices/offers-slice');
   return {
     ...actual,
     fetchOffers: vi.fn(() => ({ type: 'offers/fetchOffers' })),

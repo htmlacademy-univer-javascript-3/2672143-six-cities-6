@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { OffersList } from '..';
 import type { Offer } from '../../../types/offer';
 
-vi.mock('../ui/OfferItems', () => ({
+vi.mock('../ui/offer-items', () => ({
   OfferItems: ({ offer }: { offer: Offer }) => (
     <div data-testid={`offer-item-${offer.id}`}>{offer.title}</div>
   ),

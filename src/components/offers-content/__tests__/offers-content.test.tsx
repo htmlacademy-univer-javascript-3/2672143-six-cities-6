@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { OffersContent } from '../offers-content';
 import type { Offer } from '../../../types/offer';
 
-vi.mock('../../OffersList', () => ({
+vi.mock('../../offers-list', () => ({
   OffersList: ({ offers }: { offers: Offer[] }) => (
     <div data-testid="offers-list">
       {offers.map((offer) => (
@@ -17,11 +17,11 @@ vi.mock('../../OffersList', () => ({
   ),
 }));
 
-vi.mock('../../Sort/Sort', () => ({
+vi.mock('../../sort/sort', () => ({
   Sort: () => <div data-testid="sort-component">Sort Component</div>,
 }));
 
-vi.mock('../../Map/Map', () => ({
+vi.mock('../../map/map', () => ({
   Map: () => <div data-testid="map-component">Map Component</div>,
 }));
 

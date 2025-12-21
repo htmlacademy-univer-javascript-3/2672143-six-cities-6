@@ -6,9 +6,9 @@ import { authReducer, initializeAuth } from '../../store/slices/auth-slice';
 import { AuthorizationStatus } from '../../enums/authorization-status';
 import type { AuthState } from '../../types/auth-state';
 
-vi.mock('../../store/slices/authSlice', async () => {
+vi.mock('../../store/slices/auth-slice', async () => {
   const actual = await vi.importActual<
-    typeof import('../../store/slices/auth-slice')>('../../store/slices/authSlice');
+    typeof import('../../store/slices/auth-slice')>('../../store/slices/auth-slice');
   return {
     ...actual,
     initializeAuth: vi.fn(() => ({ type: 'auth/initializeAuth' })),
