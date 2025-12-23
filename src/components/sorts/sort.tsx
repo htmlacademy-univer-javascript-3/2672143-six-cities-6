@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortType } from '../../store/slices/sorting-slice';
 import { selectSortType } from '../../store/selectors';
-import styles from './Sort.module.css';
+import styles from './sort.module.css';
 import { SORT_OPTIONS } from '../../constants/sort-options';
 import { ICONS } from '../../assets';
 
