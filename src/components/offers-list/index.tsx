@@ -1,5 +1,5 @@
 import React from 'react';
-import { Offer } from '../../types/Offers';
+import { Offer } from '../../types/offer';
 import { OfferItems } from './ui/offer-items';
 
 type OffersListProps = {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { OfferHost } from '../offer-host';
-import type { Host } from '../../../types/Hosts';
+import type { Host } from '../../../types/host';
 
 const mockHost: Host = {
   name: 'John Doe',

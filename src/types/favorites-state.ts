@@ -1,4 +1,4 @@
-import { Offer } from './Offers';
+import { Offer } from './offer';
 
 export type FavoritesState = {
   favorites: Offer[];

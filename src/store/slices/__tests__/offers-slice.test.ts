@@ -4,8 +4,8 @@ import {
   fetchOffers,
   clearOffer,
 } from '../offers-slice';
-import { Offer, OfferDetail } from '../../../types/Offers';
-import { Review } from '../../../types/review';
+import { Offer, OfferDetail } from '../../../types/offer';
+import { Review } from '../../../types/reviewsssss';
 import { OfferDetailState, OffersState } from '../../../types/offer-state';
 
 describe('offersSlice', () => {

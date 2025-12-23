@@ -1,6 +1,6 @@
-import { Offer } from '../../types/Offers';
+import { Offer } from '../../types/offer';
 import { OffersList } from '../offers-list';
-import { Sort } from '../Sorts/Sorts';
+import { Sort } from '../sorts/sort';
 import { Map } from '../map/map';
 type OffersContentProps = {
   hoveredOfferId: string | null;

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { OffersListProps } from '../../types/Offers';
+import type { OffersListProps } from '../../types/offer';
 import { OffersList } from '.';
 
 const meta = {

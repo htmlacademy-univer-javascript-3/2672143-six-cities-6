@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ReviewsList } from '../reviews-list';
-import type { Review } from '../../../types/review';
+import type { Review } from '../../../types/reviewsssss';
 
 const mockReviews: Review[] = [
   {

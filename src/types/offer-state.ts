@@ -1,5 +1,5 @@
-import { Offer, OfferDetail } from './Offers';
-import { Review } from './review';
+import { Offer, OfferDetail } from './offer';
+import { Review } from './reviewsssss';
 
 export type OffersState = {
   offers: Offer[];

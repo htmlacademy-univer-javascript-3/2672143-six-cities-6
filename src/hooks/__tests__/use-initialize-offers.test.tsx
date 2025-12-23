@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { useInitializeOffers } from '../use-initialize-offers';
 import { fetchOffers } from '../../store/slices/offers-slice';
-import type { Offer } from '../../types/Offers';
+import type { Offer } from '../../types/offer';
 
 vi.mock('../../store/slices/offers-slice', async () => {
   const actual = await vi.importActual<

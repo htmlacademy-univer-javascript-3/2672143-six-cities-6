@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { OfferItems } from '../ui/offer-items';
-import type { Offer } from '../../../types/Offers';
+import type { Offer } from '../../../types/offer';
 
 const mockOffers: Offer[] = [
   {

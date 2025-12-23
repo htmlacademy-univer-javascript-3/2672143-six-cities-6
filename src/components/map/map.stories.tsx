@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Map } from './map';
-import { Offer } from '../../types/Offers';
+import { Offer } from '../../types/offer';
 import { City } from '../../types/city-data';
 
 const mockCity: City = {
