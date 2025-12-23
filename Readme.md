@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Виктор Одинец](https://up.htmlacademy.ru/univer-js3/6/user/2672143).
-* Наставник: `Неизвестно`.
+- Студент: [Виктор Одинец](https://up.htmlacademy.ru/univer-js3/6/user/2672143).
+- Наставник: [Андрей Осипук](https://htmlacademy.ru/profile/id616431).
 
 ---
 
