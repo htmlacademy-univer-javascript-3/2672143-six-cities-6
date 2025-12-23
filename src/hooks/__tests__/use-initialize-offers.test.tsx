@@ -7,8 +7,7 @@ import type { Offer } from '../../types/offer';
 
 vi.mock('../../store/slices/offers-slice', async () => {
   const actual = await vi.importActual<
-    typeof import('../../store/slices/offers-slice')
-  >('../../store/slices/offers-slice');
+    typeof import('../../store/slices/offers-slice')>('../../store/slices/offers-slice');
   return {
     ...actual,
     fetchOffers: vi.fn(() => ({ type: 'offers/fetchOffers' })),
