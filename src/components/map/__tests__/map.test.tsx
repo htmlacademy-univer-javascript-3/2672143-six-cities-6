@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { Map } from '../Maps';
+import { Map } from '../map';
 import type { Offer } from '../../../types/offer';
 import { IconOptions } from 'leaflet';
 

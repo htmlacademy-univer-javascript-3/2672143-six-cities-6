@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { selectIsAuthorized } from '../../store/selectors';
-import { Container } from './ui/Containers/Containers';
-import { Navigation } from './ui/Navigations/Navigations';
+import { Container } from './ui/container/container';
+import { Navigation } from './ui/navigation/navigation';
 
 export const Header: React.FC = (): React.ReactElement => {
   const isAuthorized = useSelector(selectIsAuthorized);
