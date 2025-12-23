@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReviewsList } from './reviews-list';
-import { Review } from '../../types/reviewsssss';
+import { Review } from '../../types/review';
 
 const meta = {
   title: 'Components/ReviewsList',

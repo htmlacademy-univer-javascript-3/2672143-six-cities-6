@@ -5,7 +5,7 @@ import {
   clearOffer,
 } from '../offers-slice';
 import { Offer, OfferDetail } from '../../../types/offer';
-import { Review } from '../../../types/reviewsssss';
+import { Review } from '../../../types/review';
 import { OfferDetailState, OffersState } from '../../../types/offer-state';
 
 describe('offersSlice', () => {

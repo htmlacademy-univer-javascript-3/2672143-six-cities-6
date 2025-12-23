@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { OfferDetail } from '../../types/offer';
-import { Review } from '../../types/reviewsssss';
+import { Review } from '../../types/review';
 import { RootState } from '../index';
 import { selectIsAuthorized } from './auth.selectors';
 

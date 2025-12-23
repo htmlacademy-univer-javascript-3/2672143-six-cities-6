@@ -1,5 +1,5 @@
 import React from 'react';
-import { Review } from '../../types/reviewsssss';
+import { Review } from '../../types/review';
 
 type ReviewsListProps = {
   reviews: Review[];
