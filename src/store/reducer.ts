@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { City } from '../types/City';
+import { City } from '../types/city-data';
 
 type StoreState = {
   selectedCity: City;
