@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { Offer } from '../../types/offer';
+import type { Offer } from '../../types/Offers';
 import { NearPlaces } from './near-places';
 import { City } from '../../types/city-data';
 

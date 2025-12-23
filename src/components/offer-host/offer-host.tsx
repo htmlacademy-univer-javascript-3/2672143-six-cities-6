@@ -1,5 +1,5 @@
 import React from 'react';
-import { Host } from '../../types/host';
+import { Host } from '../../types/Hosts';
 
 type OfferHostProps = {
   host: Host;

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Offer } from '../../types/offer';
+import { Offer } from '../../types/Offers';
 import { FavoritesState } from '../../types/favorites-state';
 
 const initialState: FavoritesState = {

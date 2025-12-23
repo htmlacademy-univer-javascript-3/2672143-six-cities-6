@@ -1,4 +1,4 @@
-import { Offer, OfferDetail } from './offer';
+import { Offer, OfferDetail } from './Offers';
 import { Review } from './review';
 
 export type OffersState = {

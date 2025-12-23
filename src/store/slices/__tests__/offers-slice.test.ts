@@ -4,7 +4,7 @@ import {
   fetchOffers,
   clearOffer,
 } from '../offers-slice';
-import { Offer, OfferDetail } from '../../../types/offer';
+import { Offer, OfferDetail } from '../../../types/Offers';
 import { Review } from '../../../types/review';
 import { OfferDetailState, OffersState } from '../../../types/offer-state';
 

@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { OffersContent } from '../offers-content';
-import type { Offer } from '../../../types/offer';
+import type { Offer } from '../../../types/Offers';
 
 vi.mock('../../offers-list', () => ({
   OffersList: ({ offers }: { offers: Offer[] }) => (

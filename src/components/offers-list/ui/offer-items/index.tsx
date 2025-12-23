@@ -1,4 +1,4 @@
-import { Offer } from '../../../../types/offer';
+import { Offer } from '../../../../types/Offers';
 import { Link } from 'react-router-dom';
 import React from 'react';
 

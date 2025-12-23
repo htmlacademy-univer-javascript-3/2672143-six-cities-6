@@ -3,11 +3,12 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { useInitializeOffers } from '../use-initialize-offers';
 import { fetchOffers } from '../../store/slices/offers-slice';
-import type { Offer } from '../../types/offer';
+import type { Offer } from '../../types/Offers';
 
 vi.mock('../../store/slices/offers-slice', async () => {
   const actual = await vi.importActual<
-    typeof import('../../store/slices/offers-slice')>('../../store/slices/offers-slice');
+    typeof import('../../store/slices/offers-slice')
+  >('../../store/slices/offers-slice');
   return {
     ...actual,
     fetchOffers: vi.fn(() => ({ type: 'offers/fetchOffers' })),

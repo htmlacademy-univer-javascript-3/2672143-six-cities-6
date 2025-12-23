@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { OffersList } from '..';
-import type { Offer } from '../../../types/offer';
+import type { Offer } from '../../../types/Offers';
 
 vi.mock('../ui/offer-items', () => ({
   OfferItems: ({ offer }: { offer: Offer }) => (

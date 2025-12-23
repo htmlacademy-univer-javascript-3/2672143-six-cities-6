@@ -3,10 +3,10 @@ import PrivateRoute from './components/private-router/private-router';
 
 import NotFoundPage from './pages/not-found';
 import { useInitializeAuth } from './hooks/use-initialize-auth';
-import Main from './pages/main';
-import { LoginPage } from './pages/login';
-import { OfferPage } from './pages/offer';
-import { FavoritesPage } from './pages/favorite';
+import Main from './pages/Mains';
+import { LoginPage } from './pages/Logins';
+import { OfferPage } from './pages/Offers';
+import { FavoritesPage } from './pages/Favorites';
 
 export const AppInitializer: React.FC = (): React.ReactElement => {
   useInitializeAuth();

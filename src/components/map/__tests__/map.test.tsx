@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { Map } from '../map';
-import type { Offer } from '../../../types/offer';
+import type { Offer } from '../../../types/Offers';
 import { IconOptions } from 'leaflet';
 
 vi.mock('leaflet', () => {

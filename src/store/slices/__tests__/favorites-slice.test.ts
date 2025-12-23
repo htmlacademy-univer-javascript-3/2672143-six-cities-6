@@ -1,5 +1,5 @@
 import { FavoritesState } from '../../../types/favorites-state';
-import { Offer } from '../../../types/offer';
+import { Offer } from '../../../types/Offers';
 import {
   favoritesReducer,
   fetchFavorites,

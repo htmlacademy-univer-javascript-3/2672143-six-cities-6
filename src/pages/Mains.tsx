@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Tabs } from '../components/tabs';
+import { Tabs } from '../components/Tabss';
 import { Header } from '../components/header';
 
 import { cities } from '../mocs/cities';
@@ -12,7 +12,7 @@ import {
   selectIsLoadingOffers,
   selectIsAuthorized,
 } from '../store/selectors';
-import { Spinner } from '../components/spinner/spinner';
+import { Spinner } from '../components/Spinners/Spinners';
 import { useInitializeOffers } from '../hooks/use-initialize-offers';
 import type { AppDispatch } from '../store';
 import { toggleFavorite } from '../store/slices/favorite-slice';

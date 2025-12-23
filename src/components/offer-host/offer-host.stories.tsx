@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { OfferHost } from './offer-host';
-import type { Host } from '../../types/host';
+import type { Host } from '../../types/Hosts';
 
 const meta = {
   title: 'Components/OfferHost',

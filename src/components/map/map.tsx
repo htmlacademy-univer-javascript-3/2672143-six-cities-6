@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer } from '../../types/offer';
+import { Offer } from '../../types/Offers';
 
 type MapProps = {
   offers: Offer[];

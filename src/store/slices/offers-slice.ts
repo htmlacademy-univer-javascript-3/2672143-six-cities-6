@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Offer, OfferDetail } from '../../types/offer';
+import { Offer, OfferDetail } from '../../types/Offers';
 import { Review } from '../../types/review';
 import { toggleFavorite } from './favorite-slice';
 import { OfferDetailState, OffersState } from '../../types/offer-state';
