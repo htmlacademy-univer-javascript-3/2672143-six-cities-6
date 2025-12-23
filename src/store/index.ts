@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import storeReducer from './reducer';
-import { sortingReducer } from './slices/sortingSlice';
-import { offerDetailReducer, offersReducer } from './slices/offersSlice';
+import { sortingReducer } from './slices/sorting-slice';
+import { offerDetailReducer, offersReducer } from './slices/offers-slice';
 import { apiClient } from '../api/api';
-import { authReducer } from './slices/authSlice';
-import { favoritesReducer } from './slices/favoriteSlice';
+import { authReducer } from './slices/auth-slice';
+import { favoritesReducer } from './slices/favorite-slice';
 
 export const store = configureStore({
   reducer: {

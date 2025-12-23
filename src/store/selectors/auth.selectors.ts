@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../enums/AuthorizationStatus';
+import { AuthorizationStatus } from '../../enums/authorization-status';
 import { RootState } from '../index';
 
 export const selectAuthorizationStatus = (state: RootState) =>
